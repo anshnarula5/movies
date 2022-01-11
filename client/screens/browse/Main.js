@@ -10,8 +10,8 @@ import {
 import { FlatList } from "react-native";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import requests from "../request";
 import Icon from "react-native-vector-icons/SimpleLineIcons";
+import requests from "../../request";
 
 const Main = () => {
   const navigation = useNavigation();

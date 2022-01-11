@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import {useDispatch} from "react-redux"
-import {login} from "../redux/actions/userActions";
+import {login} from "../../redux/actions/userActions";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);

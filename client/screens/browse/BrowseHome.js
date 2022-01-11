@@ -2,13 +2,13 @@ import {NavigationContainer} from "@react-navigation/native";
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import Details from "../../components/Details";
 import List from "./List";
-import Main from "../../components/Main";
+import Details from "./Details";
+import Main from "./Main";
 
 const Stack = createStackNavigator();
 
-const Home = () => {
+const BrowseHome = () => {
   return (
       <View style={styles.container}>
         <Stack.Navigator
@@ -71,7 +71,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default BrowseHome;
 
 const styles = StyleSheet.create({
   container: {

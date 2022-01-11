@@ -13,10 +13,10 @@ import {
   ImageBackground,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDetails } from "../redux/actions/fetchDetails";
 import YoutubePlayer from "react-native-youtube-iframe";
 import millify from "millify";
-import Reviews from "./Reviews";
+import {fetchDetails} from "../../redux/actions/fetchDetails";
+import Reviews from "../../components/Reviews";
 const Details = ({ route }) => {
   const [trailerUrl, setTrailerUrl] = useState();
   const { id } = route.params;

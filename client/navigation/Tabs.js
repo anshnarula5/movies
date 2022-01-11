@@ -5,8 +5,8 @@ import {
 } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/AntDesign";
 import { BlurView } from "expo-blur";
-import Home from "../screens/browse/Home";
 import User from "../screens/user/User";
+import BrowseHome from "../screens/browse/BrowseHome";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +22,7 @@ const Tabs = () => {
     >
       <Tab.Screen
         name="Home"
-        component={Home}
+        component = {BrowseHome}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon name="home" color={focused ? "cyan" : "white"} size={30} />

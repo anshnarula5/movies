@@ -6,7 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 
 const screens = {
-  Home: {
+  BrowseHome: {
     screen: Main,
   },
   Details: {
