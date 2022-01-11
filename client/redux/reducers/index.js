@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { combineReducers } from "redux";
 import {
   actionReducer,
@@ -11,9 +10,7 @@ import {
   trendingReducer,
 } from "./movieReducers";
 import {getReviewsReducer} from "./reviewReducers";
-import {loginReducer} from "./userReducers";
-
-
+import {loginReducer, userInfoReducer} from "./userReducers";
 
 const rootReducer = combineReducers({
   trending: trendingReducer,
@@ -25,7 +22,8 @@ const rootReducer = combineReducers({
   romance: romanceReducer,
   movieDetails: movieDetailsReducer,
   getReviews: getReviewsReducer,
-  login : loginReducer
+  login: loginReducer,
+  userInfo : userInfoReducer
 });
 
 export default rootReducer;

@@ -4,9 +4,10 @@ import {
   BottomTabBar,
 } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/AntDesign";
-import Home from "../components/Home";
 import { BlurView } from "expo-blur";
 import Login from "../components/Login";
+import Home from "../components/Home";
+import User from "../components/User";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +32,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="User"
-        component={Login}
+        component={User}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon name="user" color={focused ? "cyan" : "white"} size={30} />
