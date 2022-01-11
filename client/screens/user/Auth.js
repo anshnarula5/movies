@@ -54,6 +54,7 @@ const Auth = () => {
         <TextInput
           style={styles.input}
           placeholder="Enter Email"
+          autoCapitalize = 'none'
           placeholderTextColor="grey"
           value={email}
           keyboardType="email-address"

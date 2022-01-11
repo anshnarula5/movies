@@ -1,7 +1,9 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  LOGOUT,
   USER_INFO_FAIL,
   USER_INFO_REQUEST,
   USER_INFO_SUCCESS,
@@ -16,6 +18,12 @@ export const loginReducer = (state = {}, action) => {
       return { loading: false, userInfo: payload };
     case LOGIN_FAIL:
       return { loading: false, error: payload };
+    case LOGOUT:
+      const logout = async () => {
+        await AsyncStorage.removeItem("userInfo");
+      };
+      logout();
+      return {};
     default:
       return state;
   }
