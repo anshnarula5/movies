@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import {alertReducer} from "./alertReducer";
 import {
   actionReducer,
   comedyReducer,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   movieDetails: movieDetailsReducer,
   getReviews: getReviewsReducer,
   login: loginReducer,
-  userInfo : userInfoReducer
+  userInfo: userInfoReducer,
+  alert : alertReducer
 });
 
 export default rootReducer;

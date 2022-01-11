@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { login } from "../../redux/actions/userActions";
 import Loader from "../../components/Loader";
+import {setAlert} from "../../redux/actions/alert";
 
 const Auth = () => {
   const { loading, userInfo, error } = useSelector((state) => state.login);
@@ -26,15 +27,18 @@ const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigation();
   const handleLogin = () => {
-    console.log(email)
+    console.log(email);
     dispatch(login({ email, password }));
   };
   useEffect(() => {
+    if (error) {
+      dispatch(setAlert({message : error, type : "danger"}))
+    }
     if (userInfo) {
-      console.log(userInfo)
+      dispatch(setAlert({message : "Logged In", type : "success"}))
       navigate.navigate("Profile");
     }
-  }, [userInfo]); 
+  }, [userInfo, error]);
   return (
     <ImageBackground
       source={{
@@ -44,21 +48,16 @@ const Auth = () => {
       imageStyle={{ opacity: 0.8 }}
       style={styles.container}
     >
-      {loading ? (
-        <Loader />
-      ) : (
-        error && <Text style={styles.header}>{error}</Text>
-      )}
+      {loading && <Loader />}
       <View style={styles.form}>
-        <Text style={styles.header}>
-          {isLogin ? "Login" : "Sign Up"}
-        </Text>
+        <Text style={styles.header}>{isLogin ? "Login" : "Sign Up"}</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter Email"
           placeholderTextColor="grey"
           value={email}
-          onChangeText={(e) => setFormData({ ...formData, email: e})}
+          keyboardType="email-address"
+          onChangeText={(e) => setFormData({ ...formData, email: e })}
         />
         {!isLogin && (
           <TextInput
@@ -73,10 +72,9 @@ const Auth = () => {
           style={styles.input}
           placeholder="Enter Password"
           placeholderTextColor="grey"
+          secureTextEntry={true}
           value={password}
-          onChangeText={(e) =>
-            setFormData({ ...formData, password: e })
-          }
+          onChangeText={(e) => setFormData({ ...formData, password: e })}
         />
         <View style={styles.toggle}>
           <Text style={styles.text}>

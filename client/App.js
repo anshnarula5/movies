@@ -5,9 +5,10 @@ import {
 } from "@react-navigation/stack";
 import React from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import store from "./store";
 import Tabs from "./navigation/Tabs";
+import Alert from "./components/Alert";
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
       <StatusBar animated={true} barStyle="light-content" hidden={false} />
       <NavigationContainer>
         <View style={styles.container}>
+          <Alert />
           <Tabs />
         </View>
       </NavigationContainer>
