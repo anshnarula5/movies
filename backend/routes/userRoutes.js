@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 const router = express.Router()
 const User = require("../models/User.js")
+const auth = require("../middlewares/authmiddleware.js")
 
 //register
 
@@ -75,6 +76,13 @@ router.post("/login", loginValidator, expressAsyncHandler(async (req, res) => {
     })
 }))
 
+
+// get user detail
+
+router.get("/", auth, expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id).select("-password")
+    res.json(user)
+}))
 
 
 
