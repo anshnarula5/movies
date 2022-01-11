@@ -2,9 +2,9 @@ import {NavigationContainer} from "@react-navigation/native";
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import Details from "./Details";
+import Details from "../../components/Details";
 import List from "./List";
-import Main from "./Main";
+import Main from "../../components/Main";
 
 const Stack = createStackNavigator();
 

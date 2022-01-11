@@ -5,9 +5,8 @@ import {
 } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/AntDesign";
 import { BlurView } from "expo-blur";
-import Login from "../components/Login";
-import Home from "../components/Home";
-import User from "../components/User";
+import Home from "../screens/browse/Home";
+import User from "../screens/user/User";
 
 const Tab = createBottomTabNavigator();
 

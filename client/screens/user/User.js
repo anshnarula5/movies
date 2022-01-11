@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserInfo } from "../redux/actions/userActions";
+import { getUserInfo } from "../../redux/actions/userActions";
 import Login from "./Login";
 
 const User = () => {

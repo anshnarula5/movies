@@ -6,11 +6,7 @@ import {
 import React from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
 import { Provider } from "react-redux";
-import Main from "./components/Main";
-import Details from "./components/Details";
-import Navbar from "./components/Navbar";
 import store from "./store";
-import List from "./components/List";
 import Tabs from "./navigation/Tabs";
 
 const Stack = createStackNavigator();
