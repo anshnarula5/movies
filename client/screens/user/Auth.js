@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   ImageBackground,
@@ -9,22 +9,30 @@ import {
   View,
 } from "react-native";
 
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
+import {useNavigation} from "@react-navigation/native";
 import {login} from "../../redux/actions/userActions";
 
-const Login = () => {
+const Auth = () => {
+  const {loading, userInfo, error} = useSelector(state => state.login)
   const [isLogin, setIsLogin] = useState(true);
-  const dispatch = useDispatch()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const { name, email, password } = formData;
+  const {name, email, password} = formData;
+  const dispatch = useDispatch()
+  const navigate = useNavigation()
   const handleLogin = () => {
     dispatch(login({email, password}))
     console.log("HI")
   }
+  useEffect(() => {
+    if (userInfo) {
+      navigate.navigate("Profile")
+    }
+  }, [])
   return (
     <ImageBackground
       source={{
@@ -79,7 +87,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Auth;
 
 const styles = StyleSheet.create({
   text: {

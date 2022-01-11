@@ -1,27 +1,25 @@
-import {NavigationContainer} from "@react-navigation/native";
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import List from "./List";
-import Details from "./Details";
-import Main from "./Main";
+import Auth from "./Auth";
+import User from "./User";
 
 const Stack = createStackNavigator();
 
-const BrowseHome = () => {
+const UserHome = () => {
   return (
       <View style={styles.container}>
         <Stack.Navigator
-          initialRouteName="Movies"
+          initialRouteName="Profile"
           screenOptions={{
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
         >
           <Stack.Screen
-            name="Movies"
-            component={Main}
+            name="Profile"
+            component={User}
             options={{
-              title: "Movies",
+              title: "Profile",
               headerStyle: {
                 backgroundColor: "#161616",
                 shadowOffset: 1,
@@ -34,11 +32,12 @@ const BrowseHome = () => {
             }}
           />
           <Stack.Screen
-            name="Browse"
-            component={List}
+            name="Auth"
+            component={Auth}
             options={{
-              title: "Browse",
+              title: "Auth",
               gestureDirection: "horizontal",
+              headerShown : false,
               headerStyle: {
                 backgroundColor: "#161616",
                 shadowOffset: 1,
@@ -48,22 +47,6 @@ const BrowseHome = () => {
                 fontWeight: "bold",
               },
               animationEnabled: true,
-            }}
-          />
-          <Stack.Screen
-            name="Details"
-            component={Details}
-            options={{
-              title: "Movie Info",
-              gestureDirection: "horizontal",
-              headerStyle: {
-                backgroundColor: "#161616",
-                shadowOffset: 1,
-              },
-              headerTintColor: "#fff",
-              headerTitleStyle: {
-                fontWeight: "bold",
-              },
             }}
           />
         </Stack.Navigator>
@@ -71,7 +54,7 @@ const BrowseHome = () => {
   );
 };
 
-export default BrowseHome;
+export default UserHome;
 
 const styles = StyleSheet.create({
   container: {
