@@ -58,7 +58,13 @@ export const login =
 export const getUserInfo = () => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_INFO_REQUEST });
-    const res = await axios.get("http://192.168.1.5:5000/api/users");
+    const userInfo = await AsyncStorage.getItem("userInfo");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(userInfo).token}`,
+      },
+    };
+    const res = await axios.get("http://192.168.1.5:5000/api/users", config);
     dispatch({ type: USER_INFO_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({

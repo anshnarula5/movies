@@ -9,30 +9,32 @@ import {
   View,
 } from "react-native";
 
-import {useDispatch, useSelector} from "react-redux"
-import {useNavigation} from "@react-navigation/native";
-import {login} from "../../redux/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import { login } from "../../redux/actions/userActions";
+import Loader from "../../components/Loader";
 
 const Auth = () => {
-  const {loading, userInfo, error} = useSelector(state => state.login)
+  const { loading, userInfo, error } = useSelector((state) => state.login);
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const {name, email, password} = formData;
-  const dispatch = useDispatch()
-  const navigate = useNavigation()
+  const { name, email, password } = formData;
+  const dispatch = useDispatch();
+  const navigate = useNavigation();
   const handleLogin = () => {
-    dispatch(login({email, password}))
-    console.log("HI")
-  }
+    console.log(email)
+    dispatch(login({ email, password }));
+  };
   useEffect(() => {
     if (userInfo) {
-      navigate.navigate("Profile")
+      console.log(userInfo)
+      navigate.navigate("Profile");
     }
-  }, [])
+  }, [userInfo]); 
   return (
     <ImageBackground
       source={{
@@ -42,14 +44,21 @@ const Auth = () => {
       imageStyle={{ opacity: 0.8 }}
       style={styles.container}
     >
+      {loading ? (
+        <Loader />
+      ) : (
+        error && <Text style={styles.header}>{error}</Text>
+      )}
       <View style={styles.form}>
-        <Text style={styles.header}>{isLogin ? "Login" : "Sign Up"}{email}</Text>
+        <Text style={styles.header}>
+          {isLogin ? "Login" : "Sign Up"}
+        </Text>
         <TextInput
           style={styles.input}
           placeholder="Enter Email"
           placeholderTextColor="grey"
           value={email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          onChangeText={(e) => setFormData({ ...formData, email: e})}
         />
         {!isLogin && (
           <TextInput
@@ -57,7 +66,7 @@ const Auth = () => {
             placeholder="Enter Name"
             placeholderTextColor="grey"
             value={name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            onChangeText={(e) => setFormData({ ...formData, name: e })}
           />
         )}
         <TextInput
@@ -65,7 +74,9 @@ const Auth = () => {
           placeholder="Enter Password"
           placeholderTextColor="grey"
           value={password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          onChangeText={(e) =>
+            setFormData({ ...formData, password: e })
+          }
         />
         <View style={styles.toggle}>
           <Text style={styles.text}>

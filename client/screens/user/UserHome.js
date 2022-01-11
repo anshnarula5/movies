@@ -1,5 +1,6 @@
+import {useNavigation} from "@react-navigation/native";
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
-import React from "react";
+import React, {useEffect} from "react";
 import { StyleSheet, View } from "react-native";
 import Auth from "./Auth";
 import User from "./User";
@@ -7,6 +8,7 @@ import User from "./User";
 const Stack = createStackNavigator();
 
 const UserHome = () => {
+  
   return (
       <View style={styles.container}>
         <Stack.Navigator

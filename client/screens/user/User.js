@@ -1,23 +1,31 @@
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "../../redux/actions/userActions";
-import Login from "./Auth";
 
 const User = () => {
   const { loading, userInfo, error } = useSelector((state) => state.login);
   const dispatch = useDispatch();
-  const navigate = useNavigation()
+  const navigate = useNavigation();
   useEffect(() => {
-    dispatch(getUserInfo())
-    if (!userInfo) {
-      navigate.navigate("Auth")
-    }
-  }, [])
+    console.log(userInfo)
+  }, [userInfo]);
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>User info</Text>
+      {!userInfo ? (
+        <TouchableOpacity onPress={() => navigate.navigate("Auth")}>
+          <Text style={styles.header}>Login</Text>
+        </TouchableOpacity>
+      ) : (
+        <Text>HELLO</Text>
+      )}
     </View>
   );
 };
