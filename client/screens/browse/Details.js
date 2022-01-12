@@ -24,7 +24,6 @@ const Details = ({ route }) => {
   const trailerHandler = (movie) => {
     movieTrailer(movie?.title || "").then((url) => {
       setTrailerUrl(url.split("v=")[1].substring(0, 11).toString());
-      console.log(url.split("v=")[1].substring(0, 11).toString());
     });
   };
   useEffect(() => {
@@ -34,7 +33,7 @@ const Details = ({ route }) => {
     trailerHandler(details);
   };
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
       {loading ? (
         <View style={styles.loader}>
           <ActivityIndicator size="large" color="neon" />
@@ -123,7 +122,7 @@ const Details = ({ route }) => {
                 </View>
               </View>
               <View style={styles.view}>
-                <Text style={styles.text2}>Production Companies</Text>
+                {/* <Text style={styles.text2}>Production Companies</Text>
                 {details?.production_companies &&
                   details?.production_companies.length > 0 &&
                   details?.production_companies?.map(
@@ -138,7 +137,7 @@ const Details = ({ route }) => {
                           }}
                         />
                       )
-                    )}
+                    )} */}
               </View>
             </View>
           </View>

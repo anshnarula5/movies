@@ -31,7 +31,6 @@ const Auth = () => {
     dispatch(login({ email, password }));
   };
   const handleRegister = () => {
-    console.log(email);
     dispatch(register({ email, password, name }));
   };
   useEffect(() => {
