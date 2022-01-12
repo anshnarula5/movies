@@ -41,13 +41,6 @@ const Details = ({ route }) => {
         </View>
       ) : (
         <>
-          {/* <Image
-            source={{
-              uri: `https://image.tmdb.org/t/p/w500/${details.backdrop_path}`,
-            }}
-            style={styles.image}
-          /> */}
-
           {!trailerUrl && (
               <ImageBackground
                 source={{
@@ -55,13 +48,6 @@ const Details = ({ route }) => {
                 }}
                 style={styles.image}
               >
-                {/* <TouchableOpacity style={styles.button2}>
-                  <Button
-                    title="Watch Trailer"
-                    onPress={handleTrailer}
-                    color="black"
-                  />
-                </TouchableOpacity> */}
                 <TouchableOpacity
                   onPress={handleTrailer}
                   style={{
@@ -113,28 +99,10 @@ const Details = ({ route }) => {
             </View>
             <Text style={styles.overview}>
               {details.overview}{" "}
-              {/* <a href={details?.homepage}>
-                <Text style={styles.text2}>See more</Text>
-              </a>{" "} */}
             </Text>
             <View style={styles.view}>
               <Text style={styles.rating}>{details.vote_average}/10</Text>
             </View>
-            {/* 
-            {!trailerUrl && (
-              <View style={styles.button}>
-                <Button
-                  title="Watch Trailer"
-                  onPress={handleTrailer}
-                  color="black"
-                />
-              </View>
-            )}
-            {trailerUrl && (
-              <View style={styles.button}>
-                <YoutubePlayer height={200} play={true} videoId={trailerUrl} />
-              </View>
-            )} */}
             <View style={styles.info}>
               <View>
                 <View style={styles.view}>
@@ -171,7 +139,6 @@ const Details = ({ route }) => {
                         />
                       )
                     )}
-                  {/* <Text style={styles.text2}>{c.name}</Text> */}
               </View>
             </View>
           </View>

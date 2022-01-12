@@ -8,7 +8,6 @@ let userInfoFromStorage
 
 const getData = async () => {
   userInfoFromStorage = await AsyncStorage.getItem("userInfo")
-  console.log(userInfoFromStorage)
 }
 
 getData()

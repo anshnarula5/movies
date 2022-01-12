@@ -18,7 +18,6 @@ export default function App() {
       <StatusBar animated={true} barStyle="light-content" hidden={false} />
       <NavigationContainer>
         <View style={styles.container}>
-          <Alert />
           <Tabs />
         </View>
       </NavigationContainer>

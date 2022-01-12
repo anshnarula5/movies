@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   text: {
-      color: "white",
+    color: "white",
+    padding: 10
   },
 });

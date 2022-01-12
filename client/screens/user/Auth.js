@@ -11,12 +11,13 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { login } from "../../redux/actions/userActions";
+import { login, register } from "../../redux/actions/userActions";
 import Loader from "../../components/Loader";
-import {setAlert} from "../../redux/actions/alert";
+import { setAlert } from "../../redux/actions/alert";
 
 const Auth = () => {
   const { loading, userInfo, error } = useSelector((state) => state.login);
+  const { loading : registerLoading,error: registerError } = useSelector((state) => state.register);
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -27,18 +28,28 @@ const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigation();
   const handleLogin = () => {
-    console.log(email);
     dispatch(login({ email, password }));
+  };
+  const handleRegister = () => {
+    console.log(email);
+    dispatch(register({ email, password, name }));
   };
   useEffect(() => {
     if (error) {
-      dispatch(setAlert({message : error, type : "danger"}))
+      dispatch(setAlert({ message: error, type: "danger" }));
     }
     if (userInfo) {
-      dispatch(setAlert({message : "Logged In", type : "success"}))
+      dispatch(
+        setAlert({ message: `Welcome ${userInfo.name}`, type: "success" })
+      );
       navigate.navigate("Profile");
     }
   }, [userInfo, error]);
+  useEffect(() => {
+    if (registerError) {
+      dispatch(setAlert({ message: registerError, type: "danger" }));
+    }
+  }, [registerError]);
   return (
     <ImageBackground
       source={{
@@ -48,13 +59,13 @@ const Auth = () => {
       imageStyle={{ opacity: 0.8 }}
       style={styles.container}
     >
-      {loading && <Loader />}
+      {loading || registerLoading && <Loader />}
       <View style={styles.form}>
         <Text style={styles.header}>{isLogin ? "Login" : "Sign Up"}</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter Email"
-          autoCapitalize = 'none'
+          autoCapitalize="none"
           placeholderTextColor="grey"
           value={email}
           keyboardType="email-address"
@@ -89,7 +100,7 @@ const Auth = () => {
           {isLogin ? (
             <Button title="Login" color="black" onPress={handleLogin} />
           ) : (
-            <Button title="Sign Up" color="black" />
+            <Button title="Sign Up" color="black" onPress={handleRegister} />
           )}
         </View>
       </View>

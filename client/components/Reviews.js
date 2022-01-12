@@ -12,14 +12,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { getReviews } from "../redux/actions/reviewActions";
 import Review from "./Review";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { setAlert } from "../redux/actions/alert";
 
 const Reviews = ({ tmdbId }) => {
+  const { userInfo } = useSelector((state) => state.login);
   const [showInput, setShowInput] = useState(false);
+  const [review, setReview] = useState("");
   const dispatch = useDispatch();
   const { loading, reviews, error } = useSelector((state) => state.getReviews);
   useEffect(() => {
     dispatch(getReviews(1));
   }, []);
+  const handleAddReview = () => {
+    if (userInfo) {
+      setShowInput(!showInput);
+    } else {
+      dispatch(
+        setAlert({
+          message: "You need to login first to review a movie",
+          type: "danger",
+        })
+      );
+    }
+  };
   return loading ? (
     <View style={styles.loader}>
       <ActivityIndicator size="large" color="cyan" />
@@ -29,11 +44,8 @@ const Reviews = ({ tmdbId }) => {
   ) : (
     <View>
       <View style={styles.header}>
-        <Text style={styles.heading}>Reviews</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => setShowInput(!showInput)}
-        >
+        <Text style={styles.heading}>Reviews{}</Text>
+        <TouchableOpacity style={styles.button} onPress={handleAddReview}>
           <Icon name={showInput ? "close" : "plus"} color="cyan" size={20} />
         </TouchableOpacity>
       </View>
@@ -43,6 +55,7 @@ const Reviews = ({ tmdbId }) => {
           placeholder="Add new review"
           multiline
           placeholderTextColor="grey"
+          onChangeText={(text) => setReview(text)}
         />
       )}
       {/* <View>

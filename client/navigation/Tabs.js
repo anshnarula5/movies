@@ -8,38 +8,50 @@ import { BlurView } from "expo-blur";
 import User from "../screens/user/User";
 import BrowseHome from "../screens/browse/BrowseHome";
 import UserHome from "../screens/user/UserHome";
+import {useSelector} from "react-redux";
+import Alert from "../components/Alert";
 
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
+  const {alert} = useSelector(state => state.alert)
   return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        tabBarShowLabel: false,
-        tabBarActiveBackgroundColor: "#161616",
-        tabBarInactiveBackgroundColor: "black",
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component = {BrowseHome}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Icon name="home" color={focused ? "cyan" : "white"} size={30} />
-          ),
+    <>
+     {alert.message &&  <Alert />}
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarActiveBackgroundColor: "#161616",
+          tabBarInactiveBackgroundColor: "black",
+          tabBarStyle: {
+            height: 40,
+            backgroundColor: "black",
+            borderTopWidth : 0
+          },
+          tabBarHideOnKeyboard : true
         }}
-      />
-      <Tab.Screen
-        name="User"
-        component={UserHome}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Icon name="user" color={focused ? "cyan" : "white"} size={30} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+      >
+        <Tab.Screen
+          name="Home"
+          component={BrowseHome}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Icon name="home" color={focused ? "cyan" : "white"} size={25} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="User"
+          component={UserHome}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Icon name="user" color={focused ? "cyan" : "white"} size={25} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </>
   );
 };
 

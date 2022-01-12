@@ -5,6 +5,7 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   REGISTER_FAIL,
+  REGISTER_REQUEST,
   REGISTER_SUCCESS,
   USER_INFO_FAIL,
   USER_INFO_REQUEST,
@@ -21,8 +22,11 @@ export const register =
         email,
         password,
       });
-      dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+      dispatch({type: REGISTER_SUCCESS, payload: res.data});
+      dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+      await AsyncStorage.setItem("userInfo", JSON.stringify(res.data));
     } catch (error) {
+      console.log(error)
       dispatch({
         type: REGISTER_FAIL,
         payload:

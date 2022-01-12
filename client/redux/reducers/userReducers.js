@@ -7,6 +7,9 @@ import {
   USER_INFO_FAIL,
   USER_INFO_REQUEST,
   USER_INFO_SUCCESS,
+  REGISTER_REQUEST,
+  REGISTER_FAIL,
+  REGISTER_SUCCESS,
 } from "../types";
 
 export const loginReducer = (state = {}, action) => {
@@ -24,6 +27,20 @@ export const loginReducer = (state = {}, action) => {
       };
       logout();
       return {};
+    default:
+      return state;
+  }
+};
+
+export const registerReducer = (state = {}, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case REGISTER_REQUEST:
+      return { loading: true };
+    case REGISTER_SUCCESS:
+      return { loading: false, userInfo: payload };
+    case REGISTER_FAIL:
+      return { loading: false, error: payload };
     default:
       return state;
   }
