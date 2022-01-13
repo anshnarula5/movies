@@ -53,7 +53,6 @@ router.put(
   expressAsyncHandler(async (req, res) => {
     const review = await Review.findById(req.params.id);
     const likes = review.likes;
-    console.log(req.user._id);
     if (
       likes.filter((like) => like.user.toString() === req.user._id.toString())
         .length > 0

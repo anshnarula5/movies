@@ -56,14 +56,13 @@ export const createReview = ({review, tmdbId}) => async (dispatch) => {
 export const likeReview = (id) => async (dispatch) => {
   try {
     dispatch({type: LIKE_REVIEW_REQUEST});
-    console.log({review, tmdbId})
     const userInfo = await AsyncStorage.getItem("userInfo");
     const config = {
       headers: {
         Authorization: `Bearer ${JSON.parse(userInfo).token}`,
       },
     };
-    const res = await axios.put(`http://192.168.1.5:5000/api/review/like/${id}`, config);
+    const res = await axios.put(`http://192.168.1.5:5000/api/review/like/${id}`, {}, config);
     dispatch({ type: LIKE_REVIEW_SUCCESS, payload: res.data });
   } catch (error) {
     console.log(error)
