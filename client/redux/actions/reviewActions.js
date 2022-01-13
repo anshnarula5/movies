@@ -7,6 +7,9 @@ import {
   GET_REVIEWS_FAIL,
   GET_REVIEWS_REQUEST,
   GET_REVIEWS_SUCCESS,
+  LIKE_REVIEW_FAIL,
+  LIKE_REVIEW_REQUEST,
+  LIKE_REVIEW_SUCCESS,
 } from "../types";
 
 export const getReviews = (id) => async (dispatch) => {
@@ -41,6 +44,31 @@ export const createReview = ({review, tmdbId}) => async (dispatch) => {
     console.log(error)
     dispatch({
       type: CREATE_REVIEWS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
+export const likeReview = (id) => async (dispatch) => {
+  try {
+    dispatch({type: LIKE_REVIEW_REQUEST});
+    console.log({review, tmdbId})
+    const userInfo = await AsyncStorage.getItem("userInfo");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(userInfo).token}`,
+      },
+    };
+    const res = await axios.put(`http://192.168.1.5:5000/api/review/like/${id}`, config);
+    dispatch({ type: LIKE_REVIEW_SUCCESS, payload: res.data });
+  } catch (error) {
+    console.log(error)
+    dispatch({
+      type: LIKE_REVIEW_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

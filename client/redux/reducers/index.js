@@ -10,7 +10,7 @@ import {
   topReducer,
   trendingReducer,
 } from "./movieReducers";
-import {createReviewsReducer, getReviewsReducer} from "./reviewReducers";
+import {createReviewsReducer, getReviewsReducer, likeReviewReducer} from "./reviewReducers";
 import {loginReducer, registerReducer, userInfoReducer} from "./userReducers";
 
 const rootReducer = combineReducers({
@@ -27,7 +27,8 @@ const rootReducer = combineReducers({
   register: registerReducer,
   userInfo: userInfoReducer,
   alert: alertReducer,
-  createReview : createReviewsReducer
+  createReview: createReviewsReducer,
+  likeReview: likeReviewReducer
 });
 
 export default rootReducer;
