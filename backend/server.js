@@ -5,6 +5,7 @@ const {notFound, errorHandler} = require("./middlewares/errormiddleware");
 
 const userRoutes = require("./routes/userRoutes")
 const reviewRoutes = require("./routes/reviewRoutes")
+const uploadRoute = require("./routes/uploadRoute")
 
 mongoose.connect('mongodb://localhost:27017/movies')
 .then(() => console.log("Mongoose Running"))
@@ -17,6 +18,7 @@ app.use(cors())
 
 app.use("/api/users", userRoutes)
 app.use("/api/review", reviewRoutes)
+app.use("/api/upload", uploadRoute)
 
 const PORT = 5000 || process.env.PORT
 
