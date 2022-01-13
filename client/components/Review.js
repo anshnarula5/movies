@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
   likesCount: {
     color: "cyan",
     fontSize: 10,
+    paddingVertical: 5
   },
   date: {
     color: "white",
@@ -111,6 +112,6 @@ const styles = StyleSheet.create({
   likeContainer: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
   },
 });

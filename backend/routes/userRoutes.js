@@ -77,8 +77,6 @@ router.post("/login", loginValidator, expressAsyncHandler(async (req, res) => {
 }))
 
 
-// get user detail
-
 router.get("/", auth, expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id).select("-password")
     res.json(user)
