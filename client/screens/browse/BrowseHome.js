@@ -5,12 +5,11 @@ import { StyleSheet, View } from "react-native";
 import List from "./List";
 import Details from "./Details";
 import Main from "./Main";
-
+import {backgroundColor} from "../../constants";
 const Stack = createStackNavigator();
 
 const BrowseHome = () => {
   return (
-      <View style={styles.container}>
         <Stack.Navigator
           initialRouteName="Movies"
           screenOptions={{
@@ -67,16 +66,7 @@ const BrowseHome = () => {
             }}
           />
         </Stack.Navigator>
-      </View>
   );
 };
 
 export default BrowseHome;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 5,
-    backgroundColor: "black",
-  },
-});

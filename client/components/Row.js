@@ -33,8 +33,8 @@ const Row = ({url}) => {
 const styles = StyleSheet.create({
   image: {
     justifyContent: "center",
-    height: 150,
-    width: 100,
+    height: 300,
+    width: 200,
   },
   poster: {
     marginHorizontal: 5,
