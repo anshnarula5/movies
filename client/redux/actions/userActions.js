@@ -12,12 +12,14 @@ import {
   USER_INFO_SUCCESS,
 } from "../types";
 
+const URL = "https://guarded-bayou-79443.herokuapp.com/api/users"
+
 export const register =
   ({ name, email, password }) =>
   async (dispatch) => {
     try {
       dispatch({ type: REGISTER_REQUEST });
-      const res = await axios.post("http://192.168.1.5:5000/api/users", {
+      const res = await axios.post(URL, {
         name,
         email,
         password,
@@ -42,7 +44,7 @@ export const login =
   async (dispatch) => {
     try {
       dispatch({ type: LOGIN_REQUEST });
-      const res = await axios.post("http://192.168.1.5:5000/api/users/login", {
+      const res = await axios.post(`${URL}/login`, {
         email,
         password,
       });
@@ -68,7 +70,7 @@ export const getUserInfo = () => async (dispatch, getState) => {
         Authorization: `Bearer ${JSON.parse(userInfo).token}`,
       },
     };
-    const res = await axios.get("http://192.168.1.5:5000/api/users", config);
+    const res = await axios.get(`${URL}`, config);
     dispatch({ type: USER_INFO_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({

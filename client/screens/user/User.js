@@ -60,7 +60,7 @@ const User = () => {
           setProgress((loaded / total) * 100),
       };
       const res = await axios.post(
-        "http://192.168.1.5:5000/api/upload",
+        "https://guarded-bayou-79443.herokuapp.com/api/upload",
         fd,
         config
       );
