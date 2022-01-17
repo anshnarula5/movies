@@ -8,6 +8,7 @@ import {
   movieDetailsReducer,
   personReducer,
   romanceReducer,
+  searchReducer,
   topReducer,
   trendingReducer,
 } from "./movieReducers";
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
   alert: alertReducer,
   createReview: createReviewsReducer,
   likeReview: likeReviewReducer,
-  person: personReducer
+  person: personReducer,
+  search : searchReducer
 });
 
 export default rootReducer;

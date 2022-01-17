@@ -20,6 +20,7 @@ import { backgroundColor, boxColor } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import DetailsLoader from "../../components/loaders/DetailsLoader";
+import {fetchSearchResults} from "../../redux/actions/fetchSearchResults";
 const Details = ({ route }) => {
   const [trailerUrl, setTrailerUrl] = useState();
   const { id } = route.params;
@@ -32,6 +33,7 @@ const Details = ({ route }) => {
     });
   };
   useEffect(() => {
+    dispatch(fetchSearchResults("spiderman"));
     dispatch(fetchDetails(id));
   }, [id, dispatch]);
   const handleTrailer = () => {
@@ -90,7 +92,7 @@ const Details = ({ route }) => {
 
         <View style={styles.data}>
           <View style={styles.header}>
-            <Text style={styles.heading}>{details.title || details.name}</Text>
+            <Text style={styles.heading}>{details.title || details.name} </Text>
             <Text style={styles.text}>{details.release_date} </Text>
           </View>
           <Text style={styles.text}>
@@ -154,6 +156,22 @@ const Details = ({ route }) => {
                 )
             )}
           </ScrollView>
+          {/* <Text style={styles.castHeading}>Clips/Videos</Text>
+          <ScrollView horizontal={true} style={styles.cast}>
+            {details?.clips?.map(
+              (clip) =>
+                clip.key && (
+                  <View style={{marginHorizontal : 10}}>
+                    <YoutubePlayer
+                      height={100}
+                      width={200}
+                      play={false}
+                      videoId={clip.key}
+                    />
+                  </View>
+                )
+            )}
+          </ScrollView> */}
         </View>
       </>
       <Reviews tmdbId={id} />

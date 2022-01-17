@@ -99,3 +99,15 @@ export const personReducer = (state = { person: {} }, action) => {
       return state;
   }
 };
+
+export const searchReducer = (state = { people: [], movies : [] }, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "GET_SEARCH_REQUEST":
+      return { loading: true };
+    case "GET_SEARCH_SUCCESS":
+      return { loading: false, people: payload.people, movies : payload.movies };
+    default:
+      return state;
+  }
+};
