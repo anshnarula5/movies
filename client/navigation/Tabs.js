@@ -10,6 +10,7 @@ import BrowseHome from "../screens/browse/BrowseHome";
 import UserHome from "../screens/user/UserHome";
 import {useSelector} from "react-redux";
 import Alert from "../components/Alert";
+import SearchHome from "../screens/search/SearchHome";
 
 const Tab = createBottomTabNavigator();
 
@@ -38,6 +39,15 @@ const Tabs = () => {
           options={{
             tabBarIcon: ({ focused }) => (
               <Icon name="home" color={focused ? "cyan" : "white"} size={25} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Search"
+          component={SearchHome}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Icon name="search1" color={focused ? "cyan" : "white"} size={25} />
             ),
           }}
         />

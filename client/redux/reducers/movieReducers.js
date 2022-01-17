@@ -100,13 +100,25 @@ export const personReducer = (state = { person: {} }, action) => {
   }
 };
 
-export const searchReducer = (state = { people: [], movies : [] }, action) => {
+export const searchMovieReducer = (state = {  movies : [] }, action) => {
   const { type, payload } = action;
   switch (type) {
-    case "GET_SEARCH_REQUEST":
+    case "GET_SEARCH_MOVIES_REQUEST":
       return { loading: true };
-    case "GET_SEARCH_SUCCESS":
-      return { loading: false, people: payload.people, movies : payload.movies };
+    case "GET_SEARCH_MOVIES_SUCCESS":
+      return { loading: false,  movies : payload.movies };
+    default:
+      return state;
+  }
+};
+
+export const searchPeopleReducer = (state = {people : [] }, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "GET_SEARCH_PEOPLE_REQUEST":
+      return { loading: true };
+    case "GET_SEARCH_PEOPLE_SUCCESS":
+      return { loading: false,  people : payload.people };
     default:
       return state;
   }
