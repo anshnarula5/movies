@@ -19,6 +19,7 @@ import Reviews from "../../components/Reviews";
 import { backgroundColor, boxColor } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import DetailsLoader from "../../components/loaders/DetailsLoader";
 const Details = ({ route }) => {
   const [trailerUrl, setTrailerUrl] = useState();
   const { id } = route.params;
@@ -36,127 +37,125 @@ const Details = ({ route }) => {
   const handleTrailer = () => {
     trailerHandler(details);
   };
-  return (
+  return loading ? (
+    <DetailsLoader />
+  ) : (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-      {loading ? (
-        <View style={styles.loader}>
-          <ActivityIndicator size="large" color="neon" />
-        </View>
-      ) : (
-        <>
-          {!trailerUrl && (
-            <ImageBackground
-              source={{
-                uri: `https://image.tmdb.org/t/p/w500/${details.backdrop_path}`,
-              }}
-              style={styles.image}
+      <>
+        {!trailerUrl && (
+          <ImageBackground
+            source={{
+              uri: `https://image.tmdb.org/t/p/w500/${details.backdrop_path}`,
+            }}
+            style={styles.image}
+          >
+            <LinearGradient
+              colors={["transparent", backgroundColor]}
+              style={styles.gradient}
             >
-              <LinearGradient
-                colors={["transparent", backgroundColor]}
-                style={styles.gradient}
+              <TouchableOpacity
+                onPress={handleTrailer}
+                style={{
+                  borderWidth: 1,
+                  borderColor: boxColor,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 50,
+                  height: 50,
+                  top: 25,
+                  left: 300,
+                  backgroundColor: boxColor,
+                  borderRadius: 50,
+                  alignContent: "center",
+                  elevation: 25,
+                  shadowColor: "black",
+                }}
               >
-                <TouchableOpacity
-                  onPress={handleTrailer}
-                  style={{
-                    borderWidth: 1,
-                    borderColor: boxColor,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: 50,
-                    height: 50,
-                    top: 25,
-                    left: 300,
-                    backgroundColor: boxColor,
-                    borderRadius: 50,
-                    alignContent: "center",
-                    elevation: 25,
-                    shadowColor : "black"
-                  }}
-                >
-                  <Icon name="play" color="white" size={30} />
-                </TouchableOpacity>
-              </LinearGradient>
-            </ImageBackground>
-          )}
+                <Icon name="play" color="white" size={30} />
+              </TouchableOpacity>
+            </LinearGradient>
+          </ImageBackground>
+        )}
 
-          {trailerUrl && (
-            <View style={styles.videoPlayer}>
-              <YoutubePlayer height={250} play={true} videoId={trailerUrl} onFullScreenChange={true} />
-            </View>
-          )}
+        {trailerUrl && (
+          <View style={styles.videoPlayer}>
+            <YoutubePlayer
+              height={250}
+              play={true}
+              videoId={trailerUrl}
+              onFullScreenChange={true}
+            />
+          </View>
+        )}
 
-          <View style={styles.data}>
-            <View style={styles.header}>
-              <Text style={styles.heading}>
-                {details.title || details.name}
-              </Text>
-              <Text style={styles.text}>{details.release_date} </Text>
-            </View>
-            <Text style={styles.text}>
-              {details.runtime} m |{" "}
-              {(details?.spoken_languages &&
-                details?.spoken_languages.length > 0 &&
-                details?.spoken_languages[0]?.english_name) ||
-                ""}{" "}
-            </Text>
-            <View style={styles.genres}>
-              {details.genres &&
-                details.genres.length > 0 &&
-                details.genres.map((genre) => (
-                  <Text key={Math.random()} style={styles.genre}>
-                    {genre.name}
+        <View style={styles.data}>
+          <View style={styles.header}>
+            <Text style={styles.heading}>{details.title || details.name}</Text>
+            <Text style={styles.text}>{details.release_date} </Text>
+          </View>
+          <Text style={styles.text}>
+            {details.runtime} m |{" "}
+            {(details?.spoken_languages &&
+              details?.spoken_languages.length > 0 &&
+              details?.spoken_languages[0]?.english_name) ||
+              ""}{" "}
+          </Text>
+          <View style={styles.genres}>
+            {details.genres &&
+              details.genres.length > 0 &&
+              details.genres.map((genre) => (
+                <Text key={Math.random()} style={styles.genre}>
+                  {genre.name}
+                </Text>
+              ))}
+          </View>
+          <Text style={styles.overview}>{details.overview} </Text>
+          <View style={styles.view}>
+            <Text style={styles.rating}>{details.vote_average}/10</Text>
+          </View>
+          <View style={styles.info}>
+            <View>
+              <View style={styles.view}>
+                <Text style={styles.text}>
+                  Budget :{" "}
+                  <Text style={styles.text2}>
+                    $ {details.budget && millify(details.budget)}{" "}
                   </Text>
-                ))}
-            </View>
-            <Text style={styles.overview}>{details.overview} </Text>
-            <View style={styles.view}>
-              <Text style={styles.rating}>{details.vote_average}/10</Text>
-            </View>
-            <View style={styles.info}>
-              <View>
-                <View style={styles.view}>
-                  <Text style={styles.text}>
-                    Budget :{" "}
-                    <Text style={styles.text2}>
-                      $ {details.budget && millify(details.budget)}{" "}
-                    </Text>
+                </Text>
+              </View>
+              <View style={styles.view}>
+                <Text style={styles.text}>
+                  Revenue :{" "}
+                  <Text style={styles.text2}>
+                    $ {details.revenue && millify(details.revenue)}{" "}
                   </Text>
-                </View>
-                <View style={styles.view}>
-                  <Text style={styles.text}>
-                    Revenue :{" "}
-                    <Text style={styles.text2}>
-                      $ {details.revenue && millify(details.revenue)}{" "}
-                    </Text>
-                  </Text>
-                </View>
+                </Text>
               </View>
             </View>
-            <Text style={styles.castHeading}>Cast</Text>
-            <ScrollView horizontal={true} style={styles.cast}>
-              {details?.cast?.map(
-                (cast) =>
-                  cast.profile_path && (
-                    <TouchableOpacity
-                      style={styles.poster}
-                      onPress={() =>
-                        navigation.navigate("People", { id: cast.id })
-                      }
-                    >
-                      <Image
-                        source={{
-                          uri: `https://image.tmdb.org/t/p/w500/${cast.profile_path}`,
-                        }}
-                        style={styles.castImage}
-                      />
-                    </TouchableOpacity>
-                  )
-              )}
-            </ScrollView>
           </View>
-        </>
-      )}
-
+          <Text style={styles.castHeading}>Cast</Text>
+          <ScrollView horizontal={true} style={styles.cast}>
+            {details?.cast?.map(
+              (cast) =>
+                cast.profile_path && (
+                  <TouchableOpacity
+                    style={styles.poster}
+                    onPress={() =>
+                      navigation.navigate("People", { id: cast.id })
+                    }
+                  >
+                    <Image
+                      source={{
+                        uri: `https://image.tmdb.org/t/p/w500/${cast.profile_path}`,
+                      }}
+                      style={styles.castImage}
+                    />
+                  </TouchableOpacity>
+                )
+            )}
+          </ScrollView>
+        </View>
+      </>
       <Reviews tmdbId={id} />
     </ScrollView>
   );
@@ -228,7 +227,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
     marginBottom: 6,
     elevation: 10,
-    shadowColor : "black"
+    shadowColor: "black",
   },
   genres: {
     marginTop: 10,
