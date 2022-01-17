@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { backgroundColor } from "../../constants";
 import { fetchPerson } from "../../redux/actions/fetchCast";
 import { LinearGradient } from "expo-linear-gradient";
+import PersonLoader from "../../components/loaders/PersonLoader";
 
 const People = ({ route }) => {
   const { id } = route.params;
@@ -12,11 +13,12 @@ const People = ({ route }) => {
   useEffect(() => {
     dispatch(fetchPerson(id));
     console.log(person);
+    return () => dispatch("CLEAR_PERSON")
   }, [id]);
 
   return (
     <ScrollView style={styles.container}>
-      {loading && <Text>LOADING</Text>}
+      {loading && <PersonLoader />}
       {!loading && (
         <View>
           <ImageBackground

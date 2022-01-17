@@ -33,7 +33,6 @@ const Details = ({ route }) => {
     });
   };
   useEffect(() => {
-    dispatch(fetchSearchResults("spiderman"));
     dispatch(fetchDetails(id));
   }, [id, dispatch]);
   const handleTrailer = () => {

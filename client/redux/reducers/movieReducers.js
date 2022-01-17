@@ -94,7 +94,9 @@ export const personReducer = (state = { person: {} }, action) => {
     case "GET_PERSON_REQUEST":
       return { loading: true };
     case "GET_PERSON_SUCCESS":
-      return { loading: false, person: payload };
+      return {loading: false, person: payload};
+    case "CLEAR_PERSON":
+      return {person : {}}
     default:
       return state;
   }
