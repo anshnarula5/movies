@@ -15,7 +15,7 @@ const Row = ({url}) => {
     fetchMovies()
   }, [])
   return (
-    <ScrollView horizontal={true}>
+    <ScrollView horizontal={true} scroll>
       {movies.map((movie) => (
         <TouchableOpacity style={styles.poster} onPress={() => navigation.navigate("Details", {id : movie.id})}>
           <Image
@@ -33,12 +33,13 @@ const Row = ({url}) => {
 const styles = StyleSheet.create({
   image: {
     justifyContent: "center",
-    height: 300,
-    width: 200,
+    height: 200,
+    width: 150,
   },
   poster: {
-    marginHorizontal: 5,
-    marginBottom: 10,
+    margin: 10,
+    elevation: 10,
+    shadowColor : "black",
   },
 });
 

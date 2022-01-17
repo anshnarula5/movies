@@ -6,6 +6,7 @@ import {
   documentaryReducer,
   horrorReducer,
   movieDetailsReducer,
+  personReducer,
   romanceReducer,
   topReducer,
   trendingReducer,
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
   userInfo: userInfoReducer,
   alert: alertReducer,
   createReview: createReviewsReducer,
-  likeReview: likeReviewReducer
+  likeReview: likeReviewReducer,
+  person: personReducer
 });
 
 export default rootReducer;

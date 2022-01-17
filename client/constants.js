@@ -1,2 +1,2 @@
-export const backgroundColor = "#00111c"
-export const boxColor = "#00253E"
+export const backgroundColor = "#1a242f"
+export const boxColor = "#0f79af"

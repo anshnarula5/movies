@@ -87,3 +87,15 @@ export const movieDetailsReducer = (state = { details: {} }, action) => {
       return state;
   }
 };
+
+export const personReducer = (state = { person: {} }, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "GET_PERSON_REQUEST":
+      return { loading: true };
+    case "GET_PERSON_SUCCESS":
+      return { loading: false, person: payload };
+    default:
+      return state;
+  }
+};

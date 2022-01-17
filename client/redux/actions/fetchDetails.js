@@ -9,8 +9,9 @@ export const fetchDetails = (id) => async (dispatch) => {
       const response = await axios.get(
         `https://api.themoviedb.org/3/movie/${id}/credits?api_key=3075ded08ee9e418eafcfb6da8a1d5ea`
         );
-      console.log(response.data)
-    dispatch({ type: "GET_DETAILS_SUCCESS", payload: res.data});
+      res.data.cast = response.data.cast
+      dispatch({type: "GET_DETAILS_SUCCESS", payload: res.data});
+      console.log(res.data)
   } catch (error) {
   }
 };

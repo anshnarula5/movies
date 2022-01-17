@@ -182,9 +182,12 @@ const styles = StyleSheet.create({
   },
   box: {
     backgroundColor: boxColor,
-    padding: 20,
+    padding: 15,
+    marginVertical: 10,
     marginHorizontal: 5,
-    borderRadius : 5
+    borderRadius: 10,
+    elevation: 10,
+    shadowColor: "black",
   }
 });
 

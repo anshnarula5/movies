@@ -14,12 +14,16 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import YoutubePlayer from "react-native-youtube-iframe";
 import millify from "millify";
-import {fetchDetails} from "../../redux/actions/fetchDetails";
+import { fetchDetails } from "../../redux/actions/fetchDetails";
 import Reviews from "../../components/Reviews";
+import { backgroundColor, boxColor } from "../../constants";
+import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 const Details = ({ route }) => {
   const [trailerUrl, setTrailerUrl] = useState();
   const { id } = route.params;
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const { loading, details } = useSelector((state) => state.movieDetails);
   const trailerHandler = (movie) => {
     movieTrailer(movie?.title || "").then((url) => {
@@ -41,35 +45,43 @@ const Details = ({ route }) => {
       ) : (
         <>
           {!trailerUrl && (
-              <ImageBackground
-                source={{
-                  uri: `https://image.tmdb.org/t/p/w500/${details.backdrop_path}`,
-                }}
-                style={styles.image}
+            <ImageBackground
+              source={{
+                uri: `https://image.tmdb.org/t/p/w500/${details.backdrop_path}`,
+              }}
+              style={styles.image}
+            >
+              <LinearGradient
+                colors={["transparent", backgroundColor]}
+                style={styles.gradient}
               >
                 <TouchableOpacity
                   onPress={handleTrailer}
                   style={{
                     borderWidth: 1,
-                    borderColor: "rgba(0,0,0,0.2)",
+                    borderColor: boxColor,
                     alignItems: "center",
                     justifyContent: "center",
                     width: 50,
                     height: 50,
-                    top: 125,
+                    top: 25,
                     left: 300,
-                    backgroundColor: "#161616",
+                    backgroundColor: boxColor,
                     borderRadius: 50,
-                    alignContent : "center"
+                    alignContent: "center",
+                    elevation: 25,
+                    shadowColor : "black"
                   }}
                 >
-                  <Icon name="play" color="#00ffff" size={30} />
+                  <Icon name="play" color="white" size={30} />
                 </TouchableOpacity>
-              </ImageBackground>
+              </LinearGradient>
+            </ImageBackground>
           )}
+
           {trailerUrl && (
-            <View>
-              <YoutubePlayer height={200} play={true} videoId={trailerUrl} />
+            <View style={styles.videoPlayer}>
+              <YoutubePlayer height={250} play={true} videoId={trailerUrl} onFullScreenChange={true} />
             </View>
           )}
 
@@ -96,9 +108,7 @@ const Details = ({ route }) => {
                   </Text>
                 ))}
             </View>
-            <Text style={styles.overview}>
-              {details.overview}{" "}
-            </Text>
+            <Text style={styles.overview}>{details.overview} </Text>
             <View style={styles.view}>
               <Text style={styles.rating}>{details.vote_average}/10</Text>
             </View>
@@ -121,29 +131,33 @@ const Details = ({ route }) => {
                   </Text>
                 </View>
               </View>
-              <View style={styles.view}>
-                {/* <Text style={styles.text2}>Production Companies</Text>
-                {details?.production_companies &&
-                  details?.production_companies.length > 0 &&
-                  details?.production_companies?.map(
-                    (c) =>
-                      c.logo_path && (
-                        <Image
-                          key={Math.random()}
-                          style={styles.logo}
-                          resizeMode="contain"
-                          source={{
-                            uri: `https://image.tmdb.org/t/p/w200${c.logo_path}`,
-                          }}
-                        />
-                      )
-                    )} */}
-              </View>
             </View>
+            <Text style={styles.castHeading}>Cast</Text>
+            <ScrollView horizontal={true} style={styles.cast}>
+              {details?.cast?.map(
+                (cast) =>
+                  cast.profile_path && (
+                    <TouchableOpacity
+                      style={styles.poster}
+                      onPress={() =>
+                        navigation.navigate("People", { id: cast.id })
+                      }
+                    >
+                      <Image
+                        source={{
+                          uri: `https://image.tmdb.org/t/p/w500/${cast.profile_path}`,
+                        }}
+                        style={styles.castImage}
+                      />
+                    </TouchableOpacity>
+                  )
+              )}
+            </ScrollView>
           </View>
         </>
       )}
-      <Reviews tmdbId = {id} />
+
+      <Reviews tmdbId={id} />
     </ScrollView>
   );
 };
@@ -161,7 +175,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   container: {
-    backgroundColor: "black",
+    backgroundColor: backgroundColor,
     flex: 1,
   },
   button: {
@@ -171,8 +185,9 @@ const styles = StyleSheet.create({
   },
   image: {
     marginBottom: 20,
-    justifyContent: "center",
     height: 250,
+    display: "flex",
+    justifyContent: "flex-end",
   },
   logo: {
     minHeight: 50,
@@ -186,9 +201,11 @@ const styles = StyleSheet.create({
     color: "white",
     marginVertical: 10,
     fontSize: 15,
+    lineHeight: 22,
+    letterSpacing: 0.3,
   },
   data: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
   },
   rating: {
     color: "cyan",
@@ -203,13 +220,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   genre: {
-    color: "cyan",
-    borderColor: "cyan",
-    borderWidth: 1,
+    color: "white",
+    backgroundColor: boxColor,
     borderRadius: 5,
     padding: 5,
     paddingHorizontal: 10,
     marginRight: 6,
+    marginBottom: 6,
+    elevation: 10,
+    shadowColor : "black"
   },
   genres: {
     marginTop: 10,
@@ -229,6 +248,25 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     width: 100,
     height: 100,
+  },
+  poster: {
+    marginHorizontal: 5,
+    marginBottom: 10,
+  },
+  castImage: {
+    justifyContent: "center",
+    height: 150,
+    width: 100,
+  },
+  castHeading: {
+    fontSize: 25,
+    color: "cyan",
+    paddingVertical: 10,
+  },
+  gradient: {
+    height: 100,
+    display: "flex",
+    justifyContent: "flex-end",
   },
 });
 

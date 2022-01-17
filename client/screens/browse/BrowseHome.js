@@ -1,11 +1,9 @@
-import {NavigationContainer} from "@react-navigation/native";
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { StyleSheet, View } from "react-native";
 import List from "./List";
 import Details from "./Details";
 import Main from "./Main";
-import {backgroundColor} from "../../constants";
+import People from "./People";
 const Stack = createStackNavigator();
 
 const BrowseHome = () => {
@@ -54,6 +52,24 @@ const BrowseHome = () => {
             component={Details}
             options={{
               title: "Movie Info",
+              headerShown : false,
+              gestureDirection: "horizontal",
+              headerStyle: {
+                backgroundColor: "#161616",
+                shadowOffset: 1,
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="People"
+            component={People}
+            options={{
+              title: "People",
+              headerShown : false,
               gestureDirection: "horizontal",
               headerStyle: {
                 backgroundColor: "#161616",

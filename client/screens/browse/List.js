@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import {LinearGradient} from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -9,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { backgroundColor } from "../../constants";
 
 const List = ({ route }) => {
   const navigation = useNavigation();
@@ -33,7 +35,12 @@ const List = ({ route }) => {
         style={styles.image}
         imageStyle={{ opacity: 0.8 }}
       >
-        <Item title={item.title || item.name} />
+        <LinearGradient
+          colors={["transparent", "black"]}
+          style={styles.gradient}
+        >
+          <Item title={item.title || item.name} />
+        </LinearGradient>
       </ImageBackground>
     </TouchableOpacity>
   );
@@ -49,7 +56,7 @@ const List = ({ route }) => {
       data={movies}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
-      style = {styles.list}
+      style={styles.list}
     />
   );
 };
@@ -62,22 +69,14 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "white",
-    top: 80,
     fontSize: 30,
-    padding: 10,
+    padding: 10
   },
   image: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     height: 250,
-  },
-  linearGradient: {
-    backgroundColor: "transparent",
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    display: "flex",
   },
   container: {
     marginBottom: 5,
@@ -94,10 +93,15 @@ const styles = StyleSheet.create({
     color: "cyan",
     fontSize: 30,
     paddingHorizontal: 15,
-    },
-    list: {
-      backgroundColor : "black"
-  }
+  },
+  list: {
+    backgroundColor: "black",
+  },
+  gradient: {
+    height:100,
+    display: "flex",
+    justifyContent: "flex-end",
+  },
 });
 
 // const navigation = useNavigation()
