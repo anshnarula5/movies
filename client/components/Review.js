@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { useDispatch, useSelector } from "react-redux";
 import {setAlert} from "../redux/actions/alert";
 import {likeReview} from "../redux/actions/reviewActions";
+import {boxColor} from "../constants";
 
 const Review = ({ review }) => {
   const dispatch = useDispatch()
@@ -82,13 +83,17 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   container: {
-    borderBottomColor: "cyan",
-    borderBottomWidth: 1,
     minHeight: 50,
-    padding: 10,
+    padding: 12,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    backgroundColor: boxColor,
+    borderRadius: 10,
+    marginHorizontal: 10,
+    marginVertical: 5,
+    shadowColor: "black",
+    elevation : 10
   },
   image: {
     justifyContent: "center",

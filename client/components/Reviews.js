@@ -14,6 +14,7 @@ import { createReview, getReviews } from "../redux/actions/reviewActions";
 import Review from "./Review";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { setAlert } from "../redux/actions/alert";
+import ReviewLoader from "./loaders/ReviewLoader";
 
 const Reviews = ({ tmdbId }) => {
   const { userInfo } = useSelector((state) => state.login);
@@ -45,18 +46,17 @@ const Reviews = ({ tmdbId }) => {
   const handleSend = () => {
     setReview("");
     if (review.trim().length < 10) {
-      dispatch(setAlert({message : "Review should be atleast 10 characters long", type : "danger"}))
+      dispatch(
+        setAlert({
+          message: "Review should be atleast 10 characters long",
+          type: "danger",
+        })
+      );
     } else {
-      dispatch(createReview({ review, tmdbId })); 
+      dispatch(createReview({ review, tmdbId }));
     }
   };
-  return loading ? (
-    <View style={styles.loader}>
-      <ActivityIndicator size="large" color="cyan" />
-    </View>
-  ) : error ? (
-    <Text style={styles.loader}>{error}</Text>
-  ) : (
+  return (
     <View>
       <View style={styles.header}>
         <Text style={styles.heading}>Reviews</Text>
@@ -81,14 +81,20 @@ const Reviews = ({ tmdbId }) => {
           ></Button>
         </View>
       )}
-      {reviews.length > 0 ? (
+      {loading ? (
+        <>
+          <ReviewLoader />
+          <ReviewLoader />
+          <ReviewLoader />
+        </>
+      ) : reviews.length > 0 ? (
         <View>
           {reviews.map((review) => (
             <Review review={review} key={Math.random()} />
           ))}
         </View>
       ) : (
-        <Text style={styles.heading}>Be the first one to review</Text>
+        <Text style={styles.message}>Be the first one to review</Text>
       )}
       {/* <FlatList
         data={reviews}
@@ -118,6 +124,11 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 25,
     color: "cyan",
+  },
+  message: {
+    fontSize: 20,
+    color: "cyan",
+    paddingHorizontal : 10
   },
   button: {
     backgroundColor: "#161616",
