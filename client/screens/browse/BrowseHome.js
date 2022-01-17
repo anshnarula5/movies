@@ -4,6 +4,7 @@ import List from "./List";
 import Details from "./Details";
 import Main from "./Main";
 import People from "./People";
+import DetailsHeader from "../../components/headers/DetailsHeader";
 const Stack = createStackNavigator();
 
 const BrowseHome = () => {
@@ -51,17 +52,10 @@ const BrowseHome = () => {
             name="Details"
             component={Details}
             options={{
-              title: "Movie Info",
+              headerTitle: () => <DetailsHeader />,
               headerShown : false,
-              gestureDirection: "horizontal",
-              headerStyle: {
-                backgroundColor: "#161616",
-                shadowOffset: 1,
-              },
-              headerTintColor: "#fff",
-              headerTitleStyle: {
-                fontWeight: "bold",
-              },
+              headerTransparent: true,
+              headerBackTitleVisible : false
             }}
           />
           <Stack.Screen

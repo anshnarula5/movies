@@ -18,17 +18,20 @@ import {
   fetchSearchMovieResults,
   fetchSearchPeopleResults,
 } from "../../redux/actions/fetchSearchResults";
+import Icon from "react-native-vector-icons/AntDesign";
 
 const History = ({ history, handleSearch }) => {
   return (
     <>
       <Text style={styles.header}>History</Text>
       <View style={styles.history}>
-        {history && history.length > 0 &&
+        {history &&
+          history.length > 0 &&
           history.map((h) => (
             <TouchableOpacity
               style={styles.tag}
               onPress={() => handleSearch(h)}
+              key={Math.random()}
             >
               <Text style={styles.searchTerm}>{h}</Text>
             </TouchableOpacity>
@@ -59,24 +62,27 @@ const Search = () => {
       await AsyncStorage.setItem("history", JSON.stringify(history));
     };
     saveHistory();
-    getHistory()
+    getHistory();
   }, []);
   const getHistory = async () => {
-    const h = await AsyncStorage.getItem("history")
-    setHistory(JSON.parse(h))
-  }
+    const h = await AsyncStorage.getItem("history");
+    setHistory(JSON.parse(h));
+  };
   const handleSearch = (term) => {
     setKeyword(term);
   };
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
+      <TouchableOpacity onPress={() => setKeyword("")} style={styles.clear}>
+        <Icon name="delete" size={30} color={"white"} />
+      </TouchableOpacity>
       <TextInput
         style={styles.input}
         placeholder="Search"
         placeholderTextColor={"white"}
         onChangeText={(e) => setKeyword(e)}
         value={keyword}
-      />
+      ></TextInput>
       {!keyword ? (
         <History history={history} handleSearch={handleSearch} />
       ) : (
@@ -201,4 +207,10 @@ const styles = StyleSheet.create({
     padding: 4,
     fontSize: 15,
   },
+  clear: {
+    position: "absolute",
+    left: 325,
+    elevation: 15,
+    top : 28
+  }
 });

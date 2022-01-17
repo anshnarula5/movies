@@ -16,37 +16,13 @@ const PersonLoader = () => {
         {
           key: "someId",
           width: 360,
-          height: 250,
+          height: 400,
           margin: 10,
         },
         {
           key: "someOtherId",
-          width: 180,
-          height: 40,
-          margin: 10,
-        },
-        {
-          key: "someOtherId1",
           width: 360,
-          height: 20,
-          margin: 10,
-        },
-        {
-          key: "someOtherId2",
-          width: 360,
-          height: 70,
-          margin: 10,
-        },
-        {
-          key: "someOtherId3",
-          width: 300,
-          height: 20,
-          margin: 10,
-        },
-        {
-          key: "someOtherId4",
-          width: 200,
-          height: 30,
+          height: 200,
           margin: 10,
         },
       ]}
