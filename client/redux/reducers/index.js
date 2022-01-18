@@ -15,7 +15,7 @@ import {
   trendingReducer,
 } from "./movieReducers";
 import {createReviewsReducer, getReviewsReducer, likeReviewReducer} from "./reviewReducers";
-import {loginReducer, registerReducer, userInfoReducer} from "./userReducers";
+import {favouriteReducer, loginReducer, registerReducer, userInfoReducer, watchlistReducer} from "./userReducers";
 
 const rootReducer = combineReducers({
   trending: trendingReducer,
@@ -35,7 +35,9 @@ const rootReducer = combineReducers({
   likeReview: likeReviewReducer,
   person: personReducer,
   searchMovie: searchMovieReducer,
-  searchPeople: searchPeopleReducer
+  searchPeople: searchPeopleReducer,
+  favourite: favouriteReducer,
+  watchlist : watchlistReducer
 });
 
 export default rootReducer;

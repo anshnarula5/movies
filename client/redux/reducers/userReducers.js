@@ -10,6 +10,10 @@ import {
   REGISTER_REQUEST,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  FAVOURITE_REQUEST,
+  FAVOURITE_SUCCESS,
+  WATCHLIST_REQUEST,
+  WATCHLIST_SUCCESS,
 } from "../types";
 
 export const loginReducer = (state = {}, action) => {
@@ -55,6 +59,30 @@ export const userInfoReducer = (state = {}, action) => {
       return { loading: false, userInfo: payload };
     case USER_INFO_FAIL:
       return { loading: false, error: payload };
+    default:
+      return state;
+  }
+};
+
+export const favouriteReducer = (state = {}, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case FAVOURITE_REQUEST:
+      return { loading: true };
+    case FAVOURITE_SUCCESS:
+      return { loading: false, success: true };
+    default:
+      return state;
+  }
+};
+
+export const watchlistReducer = (state = {}, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case WATCHLIST_REQUEST:
+      return { loading: true };
+    case WATCHLIST_SUCCESS:
+      return { loading: false, success: true };
     default:
       return state;
   }

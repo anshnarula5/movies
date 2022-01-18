@@ -1,6 +1,8 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
+  FAVOURITE_REQUEST,
+  FAVOURITE_SUCCESS,
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -10,6 +12,8 @@ import {
   USER_INFO_FAIL,
   USER_INFO_REQUEST,
   USER_INFO_SUCCESS,
+  WATCHLIST_REQUEST,
+  WATCHLIST_SUCCESS,
 } from "../types";
 
 const URL = "https://guarded-bayou-79443.herokuapp.com/api/users"
@@ -72,6 +76,50 @@ export const getUserInfo = () => async (dispatch, getState) => {
     };
     const res = await axios.get(`${URL}`, config);
     dispatch({ type: USER_INFO_SUCCESS, payload: res.data });
+  } catch (error) {
+    dispatch({
+      type: USER_INFO_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const favouriteMovie = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: FAVOURITE_REQUEST });
+    const userInfo = await AsyncStorage.getItem("userInfo");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(userInfo).token}`,
+      },
+    };
+    const res = await axios.put(`${URL}/favourite/${id}`, {}, config);
+    dispatch({ type: FAVOURITE_SUCCESS, payload: res.data });
+  } catch (error) {
+    dispatch({
+      type: USER_INFO_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const watchlistMovie = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: WATCHLIST_REQUEST });
+    const userInfo = await AsyncStorage.getItem("userInfo");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(userInfo).token}`,
+      },
+    };
+    const res = await axios.put(`${URL}/watchlist/${id}`, {}, config);
+    dispatch({ type: WATCHLIST_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
       type: USER_INFO_FAIL,
