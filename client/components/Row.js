@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import PosterLoader from "./loaders/PosterLoader";
 
 const Row = ({ url }) => {
@@ -18,24 +18,30 @@ const Row = ({ url }) => {
     };
     fetchMovies();
   }, []);
+  const Poster = ({ movie }) => {
+    return (
+      <TouchableOpacity
+        style={styles.poster}
+        onPress={() => navigation.navigate("Details", { id: movie.id })}
+      >
+        <Image
+          source={{
+            uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
+          }}
+          style={styles.image}
+        />
+      </TouchableOpacity>
+    );
+  };
   return loading ? (
     <PosterLoader />
   ) : (
-    <ScrollView horizontal={true} scroll>
-      {movies.map((movie) => (
-        <TouchableOpacity
-          style={styles.poster}
-          onPress={() => navigation.navigate("Details", { id: movie.id })}
-        >
-          <Image
-            source={{
-              uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
-            }}
-            style={styles.image}
-          />
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+      <FlatList
+        horizontal={true}
+        data={movies}
+        renderItem={({ item }) => <Poster movie={item} />}
+        keyExtractor={(item) => item.id}
+      />
   );
 };
 
@@ -46,7 +52,8 @@ const styles = StyleSheet.create({
     width: 150,
   },
   poster: {
-    margin: 10,
+    marginVertical: 10,
+    marginHorizontal: 5,
     elevation: 15,
     shadowColor: "black",
   },

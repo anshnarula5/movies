@@ -10,9 +10,10 @@ const Stack = createStackNavigator();
 const BrowseHome = () => {
   return (
         <Stack.Navigator
-          initialRouteName="Movies"
+      initialRouteName="Movies"
           screenOptions={{
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS    ,
+            detachPreviousScreen: false,
           }}
         >
           <Stack.Screen
@@ -52,10 +53,17 @@ const BrowseHome = () => {
             name="Details"
             component={Details}
             options={{
-              headerTitle: () => <DetailsHeader />,
-              headerShown : false,
-              headerTransparent: true,
-              headerBackTitleVisible : false
+              headerShown: false,
+              title: "Details",
+              headerStyle: {
+                backgroundColor: "#161616",
+                shadowOffset: 1,
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+              animationEnabled: true,
             }}
           />
           <Stack.Screen

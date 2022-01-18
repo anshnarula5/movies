@@ -22,7 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import DetailsLoader from "../../components/loaders/DetailsLoader";
 import { fetchSearchResults } from "../../redux/actions/fetchSearchResults";
-const Details = ({ route }) => {
+const SearchDetails = ({ route }) => {
   const [trailerUrl, setTrailerUrl] = useState();
   const { id } = route.params;
   const dispatch = useDispatch();
@@ -293,4 +293,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Details;
+export default SearchDetails;

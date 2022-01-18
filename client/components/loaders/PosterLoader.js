@@ -17,19 +17,23 @@ const PosterLoader = () => {
           key: "someId",
           height: 200,
           width: 150,
-          margin: 10,
+          marginVertical: 10,
+          marginHorizontal: 5,
         },
         {
           key: "someOtherId",
           height: 200,
           width: 150,
-          margin: 10,
+          marginVertical: 10,
+          marginHorizontal: 5,
         },
         {
           key: "someOtherId1",
           height: 200,
           width: 150,
-          margin: 10,
+          marginVertical: 10,
+          marginHorizontal: 5,
+
         },
       ]}
     ></SkeletonContent>

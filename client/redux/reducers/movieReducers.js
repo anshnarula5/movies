@@ -82,7 +82,9 @@ export const movieDetailsReducer = (state = { details: {} }, action) => {
     case "GET_DETAILS_REQUEST":
       return { loading: true };
     case "GET_DETAILS_SUCCESS":
-      return { loading: false, details: payload };
+      return {loading: false, details: payload};
+      case "CLEAR_DETAILS":
+        return {details : {}}
     default:
       return state;
   }

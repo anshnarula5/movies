@@ -12,8 +12,7 @@ const People = ({ route }) => {
   const { loading, person } = useSelector((state) => state.person);
   useEffect(() => {
     dispatch(fetchPerson(id));
-    console.log(person);
-    return () => dispatch("CLEAR_PERSON")
+    return dispatch({type : "CLEAR_PERSON"})
   }, [id]);
 
   return (

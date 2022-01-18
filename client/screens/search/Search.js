@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
+  FlatList,
   Image,
   ScrollView,
   StyleSheet,
@@ -42,6 +43,48 @@ const History = ({ history, handleSearch }) => {
 };
 
 const Search = () => {
+  const Movie = ({ movie }) => {
+    return (
+      movie.poster_path && (
+        <TouchableOpacity
+          style={styles.poster}
+          onPress={() => {
+            navigation.navigate("Search Details", { id: movie.id });
+            setKeyword("");
+            setHistory((prev) => [movie.name || movie.title, ...prev]);
+          }}
+        >
+          <Image
+            source={{
+              uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
+            }}
+            style={styles.image}
+          />
+        </TouchableOpacity>
+      )
+    );
+  };
+  const Person = ({ p }) => {
+    return (
+      p.profile_path && (
+        <TouchableOpacity
+          style={styles.poster}
+          onPress={() => {
+            navigation.navigate("People", { id: p.id });
+            setKeyword("");
+            setHistory((prev) => [p.name, ...prev]);
+          }}
+        >
+          <Image
+            source={{
+              uri: `https://image.tmdb.org/t/p/w500/${p.profile_path}`,
+            }}
+            style={styles.image}
+          />
+        </TouchableOpacity>
+      )
+    );
+  };
   const [keyword, setKeyword] = useState("");
   const [history, setHistory] = useState([]);
   const dispatch = useDispatch();
@@ -91,58 +134,23 @@ const Search = () => {
           {loading ? (
             <PosterLoader />
           ) : (
-            <ScrollView horizontal={true}>
-              {movies.map(
-                (movie) =>
-                  movie.poster_path && (
-                    <TouchableOpacity
-                      style={styles.poster}
-                      onPress={() => {
-                        navigation.navigate("Details", { id: movie.id });
-                        setKeyword("");
-                        setHistory((prev) => [
-                          movie.name || movie.title,
-                          ...prev,
-                        ]);
-                      }}
-                    >
-                      <Image
-                        source={{
-                          uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
-                        }}
-                        style={styles.image}
-                      />
-                    </TouchableOpacity>
-                  )
-              )}
-            </ScrollView>
+            <FlatList
+              horizontal={true}
+              data={movies}
+              renderItem={({ item }) => <Movie movie={item} />}
+              keyExtractor={(item) => item.id}
+            />
           )}
           <Text style={styles.header}>All People</Text>
           {peopleLoading ? (
             <PosterLoader />
           ) : (
-            <ScrollView horizontal={true}>
-              {people.map(
-                (p) =>
-                  p.profile_path && (
-                    <TouchableOpacity
-                      style={styles.poster}
-                      onPress={() => {
-                        navigation.navigate("People", { id: p.id });
-                        setKeyword("");
-                        setHistory((prev) => [p.name, ...prev]);
-                      }}
-                    >
-                      <Image
-                        source={{
-                          uri: `https://image.tmdb.org/t/p/w500/${p.profile_path}`,
-                        }}
-                        style={styles.image}
-                      />
-                    </TouchableOpacity>
-                  )
-              )}
-            </ScrollView>
+            <FlatList
+              horizontal={true}
+              data={people}
+              renderItem={({ item }) => <Person p={item} />}
+              keyExtractor={(item) => item.id}
+            />
           )}
         </>
       )}
@@ -211,6 +219,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 325,
     elevation: 15,
-    top : 28
-  }
+    top: 28,
+  },
 });
