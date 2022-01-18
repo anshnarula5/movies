@@ -16,7 +16,7 @@ import {
   WATCHLIST_SUCCESS,
 } from "../types";
 
-const URL = "https://guarded-bayou-79443.herokuapp.com/api/users"
+const URL = "https://guarded-bayou-79443.herokuapp.com/api/users";
 
 export const register =
   ({ name, email, password }) =>
@@ -28,11 +28,11 @@ export const register =
         email,
         password,
       });
-      dispatch({type: REGISTER_SUCCESS, payload: res.data});
+      dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       await AsyncStorage.setItem("userInfo", JSON.stringify(res.data));
     } catch (error) {
-      console.log(error)
+      console.log(error);
       dispatch({
         type: REGISTER_FAIL,
         payload:
@@ -97,8 +97,10 @@ export const favouriteMovie = (id) => async (dispatch) => {
       },
     };
     const res = await axios.put(`${URL}/favourite/${id}`, {}, config);
+    console.log(res.data);
     dispatch({ type: FAVOURITE_SUCCESS, payload: res.data });
   } catch (error) {
+    console.log(error);
     dispatch({
       type: USER_INFO_FAIL,
       payload:

@@ -8,6 +8,7 @@ import Details from "./Details";
 import Main from "./Main";
 import People from "./People";
 import DetailsHeader from "../../components/headers/DetailsHeader";
+import Icon from "react-native-vector-icons/FontAwesome";
 const Stack = createStackNavigator();
 
 const BrowseHome = () => {
@@ -17,7 +18,6 @@ const BrowseHome = () => {
       screenOptions={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         detachPreviousScreen: false,
-        headerMode : "screen"
       }}
     >
       <Stack.Screen
@@ -57,34 +57,20 @@ const BrowseHome = () => {
         name="Details"
         component={Details}
         options={{
-          headerShown: false,
-          title: "Details",
-          headerStyle: {
-            backgroundColor: "#161616",
-            shadowOffset: 1,
-          },
+          title: "",
           headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
+          headerTransparent : true,
           animationEnabled: true,
+          // headerRight: () => <Icon name="heart" size={25} color={"red"} />,
         }}
       />
       <Stack.Screen
         name="People"
         component={People}
         options={{
-          title: "People",
-          headerShown: false,
-          gestureDirection: "horizontal",
-          headerStyle: {
-            backgroundColor: "#161616",
-            shadowOffset: 1,
-          },
+          title: "",
+          headerTransparent : true,
           headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
         }}
       />
     </Stack.Navigator>

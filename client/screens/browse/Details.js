@@ -22,24 +22,62 @@ import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import DetailsLoader from "../../components/loaders/DetailsLoader";
 import { fetchSearchResults } from "../../redux/actions/fetchSearchResults";
+import {
+  favouriteMovie,
+  getUserInfo,
+  watchlistMovie,
+} from "../../redux/actions/userActions";
+import { setAlert } from "../../redux/actions/alert";
 const Details = ({ route }) => {
   const [trailerUrl, setTrailerUrl] = useState();
+  const [favourite, setFavourite] = useState(false);
+  const [watchlist, setWatchlist] = useState(false);
   const { id } = route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { loading, details } = useSelector((state) => state.movieDetails);
+  const { success } = useSelector((state) => state.favourite);
+  const { loading: userLoading, userInfo } = useSelector(
+    (state) => state.userInfo
+  );
   const trailerHandler = (movie) => {
     movieTrailer(movie?.title || "").then((url) => {
       setTrailerUrl(url.split("v=")[1].substring(0, 11).toString());
     });
   };
   useEffect(() => {
+    dispatch(getUserInfo());
+    console.log(userInfo)
+    if (!userLoading && userInfo) {
+      setFavourite(userInfo.favourites.filter((f) => f === id.toString()) > 0);
+      setWatchlist(userInfo.watchlist.filter((f) => f === id.toString()) > 0);
+    } else {
+      setFavourite(0);
+      setWatchlist(0);
+    }
+  }, []);
+  useEffect(() => {
     dispatch(fetchDetails(id));
-    console.log(details)
     return () => dispatch({ type: "CLEAR_DETAILS" });
-  }, [dispatch]);
+  }, [id, dispatch]);
   const handleTrailer = () => {
     trailerHandler(details);
+  };
+  const handleFavourite = () => {
+    if (!userInfo) {
+      dispatch(setAlert({ message: "Login to add movie to favourites", type : "danger" }));
+    } else {
+      dispatch(favouriteMovie(id));
+      setFavourite((prev) => !prev);
+    }
+  };
+  const handleWatchList = () => {
+    if (!userInfo) {
+      dispatch(setAlert({ message: "Login to add movie to watchlist", type : "danger" }));
+    } else {
+      dispatch(watchlistMovie(id));
+      setWatchlist((prev) => !prev);
+    }
   };
   const Cast = ({ cast }) => {
     return (
@@ -59,7 +97,7 @@ const Details = ({ route }) => {
     );
   };
 
-  return loading ? (
+  return loading || userLoading ? (
     <DetailsLoader />
   ) : (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
@@ -85,7 +123,7 @@ const Details = ({ route }) => {
                   width: 50,
                   height: 50,
                   top: 25,
-                  left: 300,
+                  left: 320,
                   backgroundColor: boxColor,
                   borderRadius: 50,
                   alignContent: "center",
@@ -101,17 +139,13 @@ const Details = ({ route }) => {
 
         {trailerUrl && (
           <View style={styles.videoPlayer}>
-            <YoutubePlayer
-              height={250}
-              play={true}
-              videoId={trailerUrl}
-            />
+            <YoutubePlayer height={250} play={true} videoId={trailerUrl} />
           </View>
         )}
 
         <View style={styles.data}>
           <View style={styles.header}>
-            <Text style={styles.heading}>{details.title || details.name} </Text>
+            <Text style={styles.heading}>{details.title || details.name}</Text>
             <Text style={styles.text}>{details.release_date} </Text>
           </View>
           <Text style={styles.text}>
@@ -135,7 +169,7 @@ const Details = ({ route }) => {
             <Text style={styles.rating}>{details.vote_average}/10</Text>
           </View>
           <View style={styles.info}>
-            <View>
+            <View style={styles.box}>
               <View style={styles.view}>
                 <Text style={styles.text}>
                   Budget :{" "}
@@ -153,6 +187,30 @@ const Details = ({ route }) => {
                 </Text>
               </View>
             </View>
+            <TouchableOpacity onPress={handleFavourite} style={styles.circle}>
+              {favourite ? (
+                <Icon name="heart" size={25} color={"white"} />
+              ) : (
+                <Icon name="heart-o" size={25} color={"white"} />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleWatchList}
+              style={{
+                paddingVertical: 15,
+                paddingHorizontal: watchlist ? 15 : 17,
+                borderRadius: 50,
+                backgroundColor: boxColor,
+                elevation: 8,
+                shadowColor: "black",
+              }}
+            >
+              {watchlist ? (
+                <Icon name="check" size={25} color={"white"} />
+              ) : (
+                <Icon name="plus" size={25} color={"white"} />
+              )}
+            </TouchableOpacity>
           </View>
           <Text style={styles.castHeading}>Cast</Text>
           <FlatList
@@ -189,6 +247,14 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
   },
+  circle: {
+    padding: 15,
+    borderRadius: 50,
+    backgroundColor: boxColor,
+    elevation: 8,
+    shadowColor: "black",
+  },
+
   text2: {
     color: "cyan",
   },
@@ -196,6 +262,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   container: {
     backgroundColor: backgroundColor,
@@ -291,7 +358,6 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "flex-end",
   },
- 
 });
 
 export default Details;
