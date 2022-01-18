@@ -26,7 +26,7 @@ const Row = ({ url }) => {
       >
         <Image
           source={{
-            uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
+            uri: `https://image.tmdb.org/t/p/original/${movie.poster_path}`,
           }}
           style={styles.image}
         />

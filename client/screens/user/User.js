@@ -40,6 +40,9 @@ const User = () => {
   const handleLogout = () => {
     dispatch({ type: LOGOUT });
   };
+  useEffect(() => {
+    getUserInfo()
+  },[])
   const upload = async (image) => {
     const fd = new FormData();
     fd.append("image", {

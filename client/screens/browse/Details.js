@@ -35,6 +35,7 @@ const Details = ({ route }) => {
   };
   useEffect(() => {
     dispatch(fetchDetails(id));
+    console.log(details)
     return () => dispatch({ type: "CLEAR_DETAILS" });
   }, [dispatch]);
   const handleTrailer = () => {
@@ -49,7 +50,7 @@ const Details = ({ route }) => {
         >
           <Image
             source={{
-              uri: `https://image.tmdb.org/t/p/w500/${cast.profile_path}`,
+              uri: `https://image.tmdb.org/t/p/original/${cast.profile_path}`,
             }}
             style={styles.castImage}
           />
@@ -66,7 +67,7 @@ const Details = ({ route }) => {
         {!trailerUrl && (
           <ImageBackground
             source={{
-              uri: `https://image.tmdb.org/t/p/w500/${details.backdrop_path}`,
+              uri: `https://image.tmdb.org/t/p/original/${details.backdrop_path}`,
             }}
             style={styles.image}
           >
@@ -104,7 +105,6 @@ const Details = ({ route }) => {
               height={250}
               play={true}
               videoId={trailerUrl}
-              onFullScreenChange={true}
             />
           </View>
         )}
@@ -287,10 +287,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   gradient: {
-    height: 100,
+    height: 75,
     display: "flex",
     justifyContent: "flex-end",
   },
+ 
 });
 
 export default Details;

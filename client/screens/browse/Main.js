@@ -32,7 +32,7 @@ const Main = () => {
         url={`https://api.themoviedb.org/3/trending/movie/week?api_key=3075ded08ee9e418eafcfb6da8a1d5ea&language=en-US`}
       />
       <Text style={styles.heading}>All categories</Text>
-      <ScrollView horizontal={true}>
+      <View style={styles.categoryContainer}>
         <Box category="Top Rated 🥇" onPress={() =>
           navigation.navigate("Browse", { url: requests.fetchTopRated })
         } />
@@ -51,7 +51,7 @@ const Main = () => {
         <Box category="Documentary 📽️"  onPress={() =>
           navigation.navigate("Browse", { url: requests.fetchDocumentaries })
         } />
-      </ScrollView>
+      </View>
      
     </ScrollView>
   );
@@ -188,6 +188,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 10,
     shadowColor: "black",
+  },
+  categoryContainer: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
   }
 });
 

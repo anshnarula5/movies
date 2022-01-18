@@ -16,7 +16,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <Provider store={store}>
-      <StatusBar animated={true} barStyle="light-content" hidden={false} />
+      <StatusBar animated={true} barStyle="light-content" hidden={false} backgroundColor={backgroundColor} />
       <NavigationContainer theme={{dark : true, colors : {background : backgroundColor}}} >
         <View style={styles.container}>
           <Tabs />
@@ -29,7 +29,5 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 5,
-    backgroundColor: "black",
   },
 });

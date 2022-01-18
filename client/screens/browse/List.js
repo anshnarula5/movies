@@ -30,7 +30,7 @@ const List = ({ route }) => {
     >
       <ImageBackground
         source={{
-          uri: `https://image.tmdb.org/t/p/w500/${item.backdrop_path}`,
+          uri: `https://image.tmdb.org/t/p/original/${item.backdrop_path}`,
         }}
         style={styles.image}
         imageStyle={{ opacity: 0.8 }}
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
 //   const renderItem = ({ item }) => (
 //     <TouchableOpacity onPress={() => navigation.navigate("Details", {id : item.id})} style={styles.container}>
 //       <ImageBackground
-//       source={{ uri: `https://image.tmdb.org/t/p/w500/${item.backdrop_path}` }}
+//       source={{ uri: `https://image.tmdb.org/t/p/original/${item.backdrop_path}` }}
 //       style={styles.image}
 //       imageStyle={{ opacity: 0.8 }}
 //     >

@@ -56,7 +56,7 @@ const Search = () => {
         >
           <Image
             source={{
-              uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
+              uri: `https://image.tmdb.org/t/p/original/${movie.poster_path}`,
             }}
             style={styles.image}
           />
@@ -77,7 +77,7 @@ const Search = () => {
         >
           <Image
             source={{
-              uri: `https://image.tmdb.org/t/p/w500/${p.profile_path}`,
+              uri: `https://image.tmdb.org/t/p/original/${p.profile_path}`,
             }}
             style={styles.image}
           />

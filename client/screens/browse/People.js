@@ -22,7 +22,7 @@ const People = ({ route }) => {
         <View>
           <ImageBackground
             source={{
-              uri: `https://image.tmdb.org/t/p/w500/${person.profile_path}`,
+              uri: `https://image.tmdb.org/t/p/original/${person.profile_path}`,
             }}
             style={styles.image}
           >
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   image: {
     marginBottom: 20,
-    height: 500,
+    height: 550,
     display: "flex",
     justifyContent: "flex-end",
   },
