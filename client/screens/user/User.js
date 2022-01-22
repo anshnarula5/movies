@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAlert } from "../../redux/actions/alert";
 import { getUserInfo } from "../../redux/actions/userActions";
 import { LOGOUT } from "../../redux/types";
-import { backgroundColor } from "../../constants";
+import { backgroundColor, boxColor } from "../../constants";
 import MyMovies from "../../components/MyMovies";
 
 const getFileInfo = async (fileURI) => {
@@ -47,8 +47,8 @@ const User = () => {
   };
   useEffect(() => {
     getUserInfo();
-    console.log(userInfo)
-  }, [loading, userInfo, success, wlSuccess]);
+    console.log(userInfo);
+  }, [loading, userInfo, success, wlSuccess, navigation]);
   const upload = async (image) => {
     const fd = new FormData();
     fd.append("image", {
@@ -106,25 +106,30 @@ const User = () => {
         </TouchableOpacity>
       ) : (
         <>
-          {uploading ? (
-            <View style={styles.loader}>
-              <Text style={styles.progress}>{progress.toFixed(2)} %</Text>
-              <ActivityIndicator size="large" color="cyan" />
+          <View style={styles.useInfo}>
+            <View>
+              {uploading ? (
+                <View style={styles.loader}>
+                  <Text style={styles.progress}>{progress.toFixed(2)} %</Text>
+                  <ActivityIndicator size="large" color="cyan" />
+                </View>
+              ) : (
+                <Image
+                  source={{ uri: newImage ? newImage : userInfo.profileImage }}
+                  style={styles.image}
+                />
+              )}
+              <Text style={styles.header}>{userInfo.name}</Text>
             </View>
-          ) : (
-            <Image
-              source={{ uri: newImage ? newImage : userInfo.profileImage }}
-              style={styles.image}
-            />
-          )}
-
-          <Text style={styles.header}>{userInfo.name}</Text>
-          <Text style={styles.text}>{userInfo.email}</Text>
-          <View style={styles.button}>
-            <Button title="Logout" onPress={handleLogout} />
-          </View>
-          <View style={styles.button}>
-            <Button title="Change profile image" onPress={handleUpload} />
+            <View style={{alignSelf : "center"}}>
+              {/* <Text style={styles.text}>{userInfo.email}</Text> */}
+              <TouchableOpacity style={styles.button1} onPress={handleLogout} >
+                <Text style={{color : "white", textAlign : "center"}}>Logout </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={handleUpload}>
+                <Text style={{color : "white", textAlign : "center"}}>Change profile image </Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <MyMovies
             watchlist={userInfo.watchlist}
@@ -145,11 +150,14 @@ const styles = StyleSheet.create({
   },
   loader: {
     justifyContent: "center",
+    height: 150,
+    width: 150,
   },
   header: {
-    color: "cyan",
+    color: "white",
     fontSize: 30,
-    marginVertical: 15,
+    marginVertical: 10,
+    textAlign : "center"
   },
   progress: {
     color: "cyan",
@@ -166,8 +174,18 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
   },
+  button1: {
+    marginVertical: 10,
+    padding: 10,
+    borderRadius: 15,
+    borderColor: boxColor,
+    borderWidth : 2
+  },
   button: {
-    marginVertical: 15,
+    marginVertical: 10,
+    backgroundColor: boxColor,
+    padding: 10,
+    borderRadius : 15
   },
   loader: {
     flex: 1,
@@ -179,5 +197,12 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 10,
     alignSelf: "center",
+  },
+  useInfo: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    paddingHorizontal: 10,
+    paddingVertical: 15,
   },
 });

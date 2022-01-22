@@ -59,15 +59,16 @@ const Details = ({ route }) => {
     dispatch(fetchDetails(id));
     return () => dispatch({ type: "CLEAR_DETAILS" });
   }, [id, dispatch]);
+  
   const handleTrailer = () => {
     trailerHandler(details);
   };
+
   const handleFavourite = () => {
     if (!userInfo) {
       dispatch(setAlert({ message: "Login to add movie to favourites", type : "danger" }));
     } else {
-      console.log({id, image : details.backdrop_path})
-      dispatch(favouriteMovie({id, image :  details.backdrop_path }));
+      dispatch(favouriteMovie({id, image :  details.poster_path }));
       setFavourite((prev) => !prev);
     }
   };
@@ -75,7 +76,7 @@ const Details = ({ route }) => {
     if (!userInfo) {
       dispatch(setAlert({ message: "Login to add movie to watchlist", type : "danger" }));
     } else {
-      dispatch(watchlistMovie({id, image :  details.backdrop_path }));
+      dispatch(watchlistMovie({id, image :  details.poster_path }));
       setWatchlist((prev) => !prev);
     }
   };

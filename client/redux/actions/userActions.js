@@ -112,7 +112,7 @@ export const favouriteMovie = ({id, image}) => async (dispatch) => {
   }
 };
 
-export const watchlistMovie = (id, image) => async (dispatch) => {
+export const watchlistMovie = ({id, image}) => async (dispatch) => {
   try {
     dispatch({ type: WATCHLIST_REQUEST });
     const userInfo = await AsyncStorage.getItem("userInfo");
