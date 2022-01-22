@@ -17,8 +17,7 @@ const People = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
-      {loading && <PersonLoader />}
-      {!loading && (
+      {loading ? <PersonLoader /> : (
         <View>
           <ImageBackground
             source={{

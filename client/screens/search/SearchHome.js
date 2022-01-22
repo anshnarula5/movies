@@ -24,7 +24,7 @@ const SearchHome = () => {
         component={Search}
         options={{
           headerShown: false,
-          title: "Search Movie",
+          title: "SearchMovie",
           headerStyle: {
             backgroundColor: "#161616",
             shadowOffset: 1,
@@ -37,7 +37,7 @@ const SearchHome = () => {
         }}
       />
       <Stack.Screen
-        name="Search Details"
+        name="SearchDetails"
         component={SearchDetails}
         options={{
           title: "Movie Info",

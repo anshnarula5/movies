@@ -49,7 +49,7 @@ const Search = () => {
         <TouchableOpacity
           style={styles.poster}
           onPress={() => {
-            navigation.navigate("Search Details", { id: movie.id });
+            navigation.navigate("SearchDetails", { id: movie.id });
             setKeyword("");
             setHistory((prev) => [movie.name || movie.title, ...prev]);
           }}
