@@ -33,7 +33,6 @@ export const getReviews = (id) => async (dispatch) => {
 export const createReview = ({review, tmdbId}) => async (dispatch) => {
   try {
     dispatch({type: CREATE_REVIEWS_REQUEST});
-    console.log({review, tmdbId})
     const userInfo = await AsyncStorage.getItem("userInfo");
     const config = {
       headers: {

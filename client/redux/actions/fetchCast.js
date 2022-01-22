@@ -7,7 +7,7 @@ export const fetchPerson = (id) => async (dispatch) => {
       `https://api.themoviedb.org/3/person/${id}?api_key=3075ded08ee9e418eafcfb6da8a1d5ea`
       );
       dispatch({type: "GET_PERSON_SUCCESS", payload: res.data});
-      console.log(res.data)
+      consolelog(res.data)
   } catch (error) {
   }
 };

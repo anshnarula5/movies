@@ -87,16 +87,17 @@ export const getUserInfo = () => async (dispatch, getState) => {
   }
 };
 
-export const favouriteMovie = (id) => async (dispatch) => {
+export const favouriteMovie = ({id, image}) => async (dispatch) => {
   try {
-    dispatch({ type: FAVOURITE_REQUEST });
+    dispatch({type: FAVOURITE_REQUEST});
+    console.log({id, image})
     const userInfo = await AsyncStorage.getItem("userInfo");
     const config = {
       headers: {
         Authorization: `Bearer ${JSON.parse(userInfo).token}`,
       },
     };
-    const res = await axios.put(`${URL}/favourite/${id}`, {}, config);
+    const res = await axios.put(`${URL}/favourite/${id}`, {image}, config);
     console.log(res.data);
     dispatch({ type: FAVOURITE_SUCCESS, payload: res.data });
   } catch (error) {
@@ -111,7 +112,7 @@ export const favouriteMovie = (id) => async (dispatch) => {
   }
 };
 
-export const watchlistMovie = (id) => async (dispatch) => {
+export const watchlistMovie = (id, image) => async (dispatch) => {
   try {
     dispatch({ type: WATCHLIST_REQUEST });
     const userInfo = await AsyncStorage.getItem("userInfo");
@@ -120,7 +121,7 @@ export const watchlistMovie = (id) => async (dispatch) => {
         Authorization: `Bearer ${JSON.parse(userInfo).token}`,
       },
     };
-    const res = await axios.put(`${URL}/watchlist/${id}`, {}, config);
+    const res = await axios.put(`${URL}/watchlist/${id}`, {image}, config);
     dispatch({ type: WATCHLIST_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({

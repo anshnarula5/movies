@@ -47,7 +47,6 @@ const Details = ({ route }) => {
   };
   useEffect(() => {
     dispatch(getUserInfo());
-    console.log(userInfo)
     if (!userLoading && userInfo) {
       setFavourite(userInfo.favourites.filter((f) => f === id.toString()) > 0);
       setWatchlist(userInfo.watchlist.filter((f) => f === id.toString()) > 0);
@@ -67,7 +66,8 @@ const Details = ({ route }) => {
     if (!userInfo) {
       dispatch(setAlert({ message: "Login to add movie to favourites", type : "danger" }));
     } else {
-      dispatch(favouriteMovie(id));
+      console.log({id, image : details.backdrop_path})
+      dispatch(favouriteMovie({id, image :  details.backdrop_path }));
       setFavourite((prev) => !prev);
     }
   };
@@ -75,7 +75,7 @@ const Details = ({ route }) => {
     if (!userInfo) {
       dispatch(setAlert({ message: "Login to add movie to watchlist", type : "danger" }));
     } else {
-      dispatch(watchlistMovie(id));
+      dispatch(watchlistMovie({id, image :  details.backdrop_path }));
       setWatchlist((prev) => !prev);
     }
   };

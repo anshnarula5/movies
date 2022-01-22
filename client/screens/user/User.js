@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from "expo-file-system";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -14,11 +14,14 @@ import {
   View,
   ImagePickerManager,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlert } from "../../redux/actions/alert";
 import { getUserInfo } from "../../redux/actions/userActions";
 import { LOGOUT } from "../../redux/types";
+import { backgroundColor } from "../../constants";
+import MyMovies from "../../components/MyMovies";
 
 const getFileInfo = async (fileURI) => {
   const fileInfo = await FileSystem.getInfoAsync(fileURI);
@@ -31,18 +34,23 @@ const isLessThanTheMB = (fileSize, smallerThanSizeMB) => {
 };
 
 const User = () => {
-  const { loading, userInfo, error } = useSelector((state) => state.login);
+  const { loading, userInfo, error } = useSelector((state) => state.userInfo);
+  const { success } = useSelector((state) => state.favourite);
+  const { success : wlSuccess } = useSelector((state) => state.watchlist);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [newImage, setNewImage] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigation();
+  const navigation = useNavigation();
   const handleLogout = () => {
     dispatch({ type: LOGOUT });
   };
   useEffect(() => {
-    getUserInfo()
-  },[])
+    getUserInfo();
+    if (success) {
+      console.log("HELLO")
+    }
+  }, [loading, userInfo, success, wlSuccess ]);
   const upload = async (image) => {
     const fd = new FormData();
     fd.append("image", {
@@ -85,9 +93,9 @@ const User = () => {
       quality: 1,
     });
     const fileInfo = await getFileInfo(result.uri);
-  
+
     const isLt15MB = isLessThanTheMB(fileInfo.size, 10);
-    console.log(fileInfo.size/1024 / 1024)
+    console.log(fileInfo.size / 1024 / 1024);
     if (!isLt15MB) {
       alert(`Image size must be smaller than 10MB!`);
       return;
@@ -95,9 +103,9 @@ const User = () => {
     upload(result.uri);
   };
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {!userInfo ? (
-        <TouchableOpacity onPress={() => navigate.navigate("Auth")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Auth")}>
           <Text style={styles.header}>Login</Text>
         </TouchableOpacity>
       ) : (
@@ -121,10 +129,11 @@ const User = () => {
           </View>
           <View style={styles.button}>
             <Button title="Change profile image" onPress={handleUpload} />
-          </View>
+            </View>
+            <MyMovies watchlist={userInfo.watchlist} favourites={userInfo.favourites} />
         </>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -132,10 +141,8 @@ export default User;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
+    backgroundColor: backgroundColor,
     flex: 1,
-    alignItems: "center",
-    padding: 20,
   },
   loader: {
     justifyContent: "center",
@@ -167,5 +174,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  heading: {
+    color: "white",
+    fontSize: 25,
+    padding: 10,
+    alignSelf : "center"
   },
 });
