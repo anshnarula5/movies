@@ -34,9 +34,9 @@ const isLessThanTheMB = (fileSize, smallerThanSizeMB) => {
 };
 
 const User = () => {
-  const { loading, userInfo, error } = useSelector((state) => state.userInfo);
+  const { loading, userInfo, error } = useSelector((state) => state.login);
   const { success } = useSelector((state) => state.favourite);
-  const { success : wlSuccess } = useSelector((state) => state.watchlist);
+  const { success: wlSuccess } = useSelector((state) => state.watchlist);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [newImage, setNewImage] = useState("");
@@ -47,10 +47,8 @@ const User = () => {
   };
   useEffect(() => {
     getUserInfo();
-    if (success) {
-      console.log("HELLO")
-    }
-  }, [loading, userInfo, success, wlSuccess ]);
+    console.log(userInfo)
+  }, [loading, userInfo, success, wlSuccess]);
   const upload = async (image) => {
     const fd = new FormData();
     fd.append("image", {
@@ -93,9 +91,7 @@ const User = () => {
       quality: 1,
     });
     const fileInfo = await getFileInfo(result.uri);
-
     const isLt15MB = isLessThanTheMB(fileInfo.size, 10);
-    console.log(fileInfo.size / 1024 / 1024);
     if (!isLt15MB) {
       alert(`Image size must be smaller than 10MB!`);
       return;
@@ -129,8 +125,11 @@ const User = () => {
           </View>
           <View style={styles.button}>
             <Button title="Change profile image" onPress={handleUpload} />
-            </View>
-            <MyMovies watchlist={userInfo.watchlist} favourites={userInfo.favourites} />
+          </View>
+          <MyMovies
+            watchlist={userInfo.watchlist}
+            favourites={userInfo.favourites}
+          />
         </>
       )}
     </ScrollView>
@@ -179,6 +178,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 25,
     padding: 10,
-    alignSelf : "center"
+    alignSelf: "center",
   },
 });

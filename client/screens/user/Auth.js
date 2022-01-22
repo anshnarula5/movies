@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
+  Image,
   ImageBackground,
   StyleSheet,
   Text,
   TextInput,
+  TouchableHighlight,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -14,10 +16,13 @@ import { useNavigation } from "@react-navigation/native";
 import { login, register } from "../../redux/actions/userActions";
 import Loader from "../../components/Loader";
 import { setAlert } from "../../redux/actions/alert";
+import { backgroundColor, boxColor } from "../../constants";
 
 const Auth = () => {
   const { loading, userInfo, error } = useSelector((state) => state.login);
-  const { loading : registerLoading,error: registerError } = useSelector((state) => state.register);
+  const { loading: registerLoading, error: registerError } = useSelector(
+    (state) => state.register
+  );
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -50,15 +55,8 @@ const Auth = () => {
     }
   }, [registerError]);
   return (
-    <ImageBackground
-      source={{
-        uri: "https://images.unsplash.com/photo-1559570278-eb8d71d06403?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=326&q=80",
-      }}
-      resizeMode="cover"
-      imageStyle={{ opacity: 0.8 }}
-      style={styles.container}
-    >
-      {loading || registerLoading && <Loader />}
+    <View style={styles.container}>
+      {loading || (registerLoading && <Loader />)}
       <View style={styles.form}>
         <Text style={styles.header}>{isLogin ? "Login" : "Sign Up"}</Text>
         <TextInput
@@ -87,23 +85,31 @@ const Auth = () => {
           value={password}
           onChangeText={(e) => setFormData({ ...formData, password: e })}
         />
-        <View style={styles.toggle}>
-          <Text style={styles.text}>
-            Don't have an account ?{" "}
-            <Text style={styles.text2} onPress={() => setIsLogin(!isLogin)}>
-              Sign {isLogin ? "Up" : "In"}
-            </Text>
-          </Text>
-        </View>
-        <View style={styles.button}>
           {isLogin ? (
-            <Button title="Login" color="black" onPress={handleLogin} />
+            <TouchableOpacity onPress={handleLogin} style={styles.button}>
+              <Text style={styles.text}>Login</Text>
+            </TouchableOpacity>
           ) : (
-            <Button title="Sign Up" color="black" onPress={handleRegister} />
+            <TouchableOpacity onPress={handleRegister} style={styles.button}>
+              <Text style={styles.text}>Sign Up</Text>
+            </TouchableOpacity>
+          )}
+        <View style={styles.toggle}>
+          {isLogin ? (
+            <Text style={styles.text}>Don't have an account ?</Text>
+          ) : (
+            <Text style={styles.text}>Already have an account ?</Text>
           )}
         </View>
+        <TouchableOpacity style={styles.button2}  onPress={() => setIsLogin(!isLogin)}>
+          {!isLogin ? (
+              <Text style={styles.text}>Login</Text>
+          ) : (
+              <Text style={styles.text}>Sign Up</Text>
+          )}
+        </TouchableOpacity>
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 
@@ -112,12 +118,13 @@ export default Auth;
 const styles = StyleSheet.create({
   text: {
     color: "white",
+    fontSize: 15,
   },
   text2: {
-    color: "cyan",
+    color: boxColor,
   },
   container: {
-    backgroundColor: "black",
+    backgroundColor: backgroundColor,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -126,30 +133,45 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "white",
     textAlign: "center",
-    padding: 20,
+    padding: 10,
   },
   form: {
-    justifyContent: "center",
-    borderRadius: 20,
     display: "flex",
     justifyContent: "space-evenly",
     height: "70%",
     width: "70%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   input: {
     padding: 10,
     borderBottomWidth: 0.5,
-    borderBottomColor: "cyan",
+    borderBottomColor: boxColor,
     color: "white",
     margin: 10,
   },
   toggle: {
     textAlign: "center",
-    margin: 20,
     alignItems: "center",
   },
   button: {
     alignItems: "center",
+    backgroundColor: boxColor,
+    padding: 12,
+    borderRadius: 15,
+    marginVertical: 8,
+  },
+  button2: {
+    alignItems: "center",
+    backgroundColor: backgroundColor,
+    padding: 2,
+    borderRadius: 15,
+    borderColor: boxColor,
+    borderWidth: 2,
+    marginVertical: 8,
+    padding: 12,
+  },
+  image: {
+    justifyContent: "center",
+    width: 300,
+    height: 200,
   },
 });

@@ -24,7 +24,7 @@ const SearchHome = () => {
         component={Search}
         options={{
           headerShown: false,
-          title: "Search",
+          title: "Search Movie",
           headerStyle: {
             backgroundColor: "#161616",
             shadowOffset: 1,
