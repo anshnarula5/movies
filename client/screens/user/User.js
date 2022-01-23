@@ -18,10 +18,11 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlert } from "../../redux/actions/alert";
-import { getUserInfo } from "../../redux/actions/userActions";
+import { getFav, getUserInfo, getWatchlist } from "../../redux/actions/userActions";
 import { LOGOUT } from "../../redux/types";
 import { backgroundColor, boxColor } from "../../constants";
 import MyMovies from "../../components/MyMovies";
+import PosterLoader from "../../components/loaders/PosterLoader";
 
 const getFileInfo = async (fileURI) => {
   const fileInfo = await FileSystem.getInfoAsync(fileURI);
@@ -36,7 +37,9 @@ const isLessThanTheMB = (fileSize, smallerThanSizeMB) => {
 const User = () => {
   const { loading, userInfo, error } = useSelector((state) => state.login);
   const { success } = useSelector((state) => state.favourite);
-  const { success: wlSuccess } = useSelector((state) => state.watchlist);
+  const {success: wlSuccess} = useSelector((state) => state.watchlist);
+  const {loading : wlLoading, watchlist} = useSelector(state => state.wlList)
+  const {loading : favLoading ,fav} = useSelector(state => state.favList)
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [newImage, setNewImage] = useState("");
@@ -44,10 +47,15 @@ const User = () => {
   const navigation = useNavigation();
   const handleLogout = () => {
     dispatch({ type: LOGOUT });
+    dispatch({ type: LOGOUT });
   };
+
   useEffect(() => {
     getUserInfo();
-    console.log(userInfo);
+    if (userInfo) { 
+      dispatch(getFav())
+      dispatch(getWatchlist())
+    }    
   }, [loading, userInfo, success, wlSuccess, navigation]);
   const upload = async (image) => {
     const fd = new FormData();
@@ -131,10 +139,10 @@ const User = () => {
               </TouchableOpacity>
             </View>
           </View>
-          <MyMovies
-            watchlist={userInfo.watchlist}
-            favourites={userInfo.favourites}
-          />
+          {favLoading || wlLoading ? <PosterLoader /> : <MyMovies
+            watchlist={watchlist}
+            favourites={fav}
+          />}
         </>
       )}
     </ScrollView>

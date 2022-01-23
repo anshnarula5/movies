@@ -14,6 +14,10 @@ import {
   FAVOURITE_SUCCESS,
   WATCHLIST_REQUEST,
   WATCHLIST_SUCCESS,
+  GET_FAV_REQUEST,
+  GET_FAV_SUCCESS,
+  GET_WATCHLIST_REQUEST,
+  GET_WATCHLIST_SUCCESS,
 } from "../types";
 
 export const loginReducer = (state = {}, action) => {
@@ -83,6 +87,30 @@ export const watchlistReducer = (state = {}, action) => {
       return { loading: true };
     case WATCHLIST_SUCCESS:
       return { loading: false, success: true };
+    default:
+      return state;
+  }
+};
+
+export const getWatchlistReducer = (state = {watchlist : []}, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case GET_WATCHLIST_REQUEST:
+      return { loading: true };
+    case GET_WATCHLIST_SUCCESS:
+      return { loading: false, watchlist: payload };
+    default:
+      return state;
+  }
+};
+
+export const getFavReducer = (state = {fav : []}, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case GET_FAV_REQUEST:
+      return { loading: true };
+    case GET_FAV_SUCCESS:
+      return { loading: false, fav: payload };
     default:
       return state;
   }

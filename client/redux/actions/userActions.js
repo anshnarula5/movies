@@ -3,6 +3,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   FAVOURITE_REQUEST,
   FAVOURITE_SUCCESS,
+  GET_FAV_REQUEST,
+  GET_FAV_SUCCESS,
+  GET_WATCHLIST_REQUEST,
+  GET_WATCHLIST_SUCCESS,
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -87,49 +91,79 @@ export const getUserInfo = () => async (dispatch, getState) => {
   }
 };
 
-export const favouriteMovie = ({id, image}) => async (dispatch) => {
+export const favouriteMovie =
+  ({ id, image }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: FAVOURITE_REQUEST });
+      const userInfo = await AsyncStorage.getItem("userInfo");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(userInfo).token}`,
+        },
+      };
+      const res = await axios.put(`${URL}/favourite/${id}`, { image }, config);
+      dispatch({ type: FAVOURITE_SUCCESS, payload: res.data });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: USER_INFO_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const watchlistMovie =
+  ({ id, image }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: WATCHLIST_REQUEST });
+      const userInfo = await AsyncStorage.getItem("userInfo");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(userInfo).token}`,
+        },
+      };
+      const res = await axios.put(`${URL}/watchlist/${id}`, { image }, config);
+      dispatch({ type: WATCHLIST_SUCCESS, payload: res.data });
+    } catch (error) {
+      dispatch({
+        type: USER_INFO_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const getFav = () => async (dispatch) => {
   try {
-    dispatch({type: FAVOURITE_REQUEST});
-    console.log({id, image})
+    dispatch({ type: GET_FAV_REQUEST });
     const userInfo = await AsyncStorage.getItem("userInfo");
     const config = {
       headers: {
         Authorization: `Bearer ${JSON.parse(userInfo).token}`,
       },
     };
-    const res = await axios.put(`${URL}/favourite/${id}`, {image}, config);
-    console.log(res.data);
-    dispatch({ type: FAVOURITE_SUCCESS, payload: res.data });
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: USER_INFO_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
+    const res = await axios.get(`${URL}/favourites`, config);
+    dispatch({ type: GET_FAV_SUCCESS, payload: res.data });
+  } catch (error) {}
 };
 
-export const watchlistMovie = ({id, image}) => async (dispatch) => {
+export const getWatchlist = () => async (dispatch) => {
   try {
-    dispatch({ type: WATCHLIST_REQUEST });
+    dispatch({ type: GET_WATCHLIST_REQUEST });
     const userInfo = await AsyncStorage.getItem("userInfo");
     const config = {
       headers: {
         Authorization: `Bearer ${JSON.parse(userInfo).token}`,
       },
     };
-    const res = await axios.put(`${URL}/watchlist/${id}`, {image}, config);
-    dispatch({ type: WATCHLIST_SUCCESS, payload: res.data });
-  } catch (error) {
-    dispatch({
-      type: USER_INFO_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
+    const res = await axios.get(`${URL}/watchlist`, config);
+    dispatch({ type: GET_WATCHLIST_SUCCESS, payload: res.data });
+  } catch (error) {}
 };

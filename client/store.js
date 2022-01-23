@@ -15,7 +15,7 @@ getData()
 const initialState = {
   userInfo : userInfoFromStorage
 }
-const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(thunk)) )
+const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(thunk)))
 
 
 export default store
