@@ -18,7 +18,11 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlert } from "../../redux/actions/alert";
-import { getFav, getUserInfo, getWatchlist } from "../../redux/actions/userActions";
+import {
+  getFav,
+  getUserInfo,
+  getWatchlist,
+} from "../../redux/actions/userActions";
 import { LOGOUT } from "../../redux/types";
 import { backgroundColor, boxColor } from "../../constants";
 import MyMovies from "../../components/MyMovies";
@@ -37,9 +41,11 @@ const isLessThanTheMB = (fileSize, smallerThanSizeMB) => {
 const User = () => {
   const { loading, userInfo, error } = useSelector((state) => state.login);
   const { success } = useSelector((state) => state.favourite);
-  const {success: wlSuccess} = useSelector((state) => state.watchlist);
-  const {loading : wlLoading, watchlist} = useSelector(state => state.wlList)
-  const {loading : favLoading ,fav} = useSelector(state => state.favList)
+  const { success: wlSuccess } = useSelector((state) => state.watchlist);
+  const { loading: wlLoading, watchlist } = useSelector(
+    (state) => state.wlList
+  );
+  const { loading: favLoading, fav } = useSelector((state) => state.favList);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [newImage, setNewImage] = useState("");
@@ -52,10 +58,10 @@ const User = () => {
 
   useEffect(() => {
     getUserInfo();
-    if (userInfo) { 
-      dispatch(getFav())
-      dispatch(getWatchlist())
-    }    
+    if (userInfo) {
+      dispatch(getFav());
+      dispatch(getWatchlist());
+    }
   }, [loading, userInfo, success, wlSuccess, navigation]);
   const upload = async (image) => {
     const fd = new FormData();
@@ -106,12 +112,48 @@ const User = () => {
     }
     upload(result.uri);
   };
+  const LoginScreen = () => {
+    return (
+      <View>
+        <View
+          style={{
+            backgroundColor: boxColor,
+            height: 400,
+            width: "90%",
+            padding: 20,
+            marginVertical: 40,
+            marginHorizontal: 20,
+            borderRadius: 30,
+            alignItems: "center",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 25 }}>
+            Login / Signup to{" "}
+          </Text>
+          <Text style={{ color: "white", fontSize: 18 }}>Review a movie</Text>
+          <Text style={{ color: "white", fontSize: 18 }}>
+            Add a movie to favourites
+          </Text>
+          <Text style={{ color: "white", fontSize: 18 }}>
+            Add a movie to watchlist
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={styles.button1}
+          onPress={() => navigation.navigate("Auth")}
+        >
+          <Text style={{ color: "white", textAlign: "center", fontSize: 20 }}>
+            Login / Signup{" "}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
   return (
     <ScrollView style={styles.container}>
       {!userInfo ? (
-        <TouchableOpacity onPress={() => navigation.navigate("Auth")}>
-          <Text style={styles.header}>Login</Text>
-        </TouchableOpacity>
+        <LoginScreen />
       ) : (
         <>
           <View style={styles.useInfo}>
@@ -129,20 +171,25 @@ const User = () => {
               )}
               <Text style={styles.header}>{userInfo.name}</Text>
             </View>
-            <View style={{alignSelf : "center"}}>
+            <View style={{ alignSelf: "center" }}>
               {/* <Text style={styles.text}>{userInfo.email}</Text> */}
-              <TouchableOpacity style={styles.button1} onPress={handleLogout} >
-                <Text style={{color : "white", textAlign : "center"}}>Logout </Text>
+              <TouchableOpacity style={styles.button1} onPress={handleLogout}>
+                <Text style={{ color: "white", textAlign: "center" }}>
+                  Logout{" "}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={handleUpload}>
-                <Text style={{color : "white", textAlign : "center"}}>Change profile image </Text>
+                <Text style={{ color: "white", textAlign: "center" }}>
+                  Change profile image{" "}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
-          {favLoading || wlLoading ? <PosterLoader /> : <MyMovies
-            watchlist={watchlist}
-            favourites={fav}
-          />}
+          {favLoading || wlLoading ? (
+            <PosterLoader />
+          ) : (
+            <MyMovies watchlist={watchlist} favourites={fav} />
+          )}
         </>
       )}
     </ScrollView>
@@ -165,7 +212,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 30,
     marginVertical: 10,
-    textAlign : "center"
+    textAlign: "center",
   },
   progress: {
     color: "cyan",
@@ -187,13 +234,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 15,
     borderColor: boxColor,
-    borderWidth : 2
+    borderWidth: 2,
   },
   button: {
     marginVertical: 10,
     backgroundColor: boxColor,
     padding: 10,
-    borderRadius : 15
+    borderRadius: 15,
   },
   loader: {
     flex: 1,
