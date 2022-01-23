@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
+  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -19,7 +20,8 @@ import {
   fetchSearchMovieResults,
   fetchSearchPeopleResults,
 } from "../../redux/actions/fetchSearchResults";
-import Icon from "react-native-vector-icons/AntDesign";
+import Icon from "react-native-vector-icons/Entypo";
+import { LinearGradient } from "expo-linear-gradient";
 
 const History = ({ history, handleSearch }) => {
   return (
@@ -71,16 +73,22 @@ const Search = () => {
           style={styles.poster}
           onPress={() => {
             navigation.navigate("People", { id: p.id });
-            setKeyword("");
             setHistory((prev) => [p.name, ...prev]);
           }}
         >
-          <Image
+          <ImageBackground
             source={{
               uri: `https://image.tmdb.org/t/p/original/${p.profile_path}`,
             }}
             style={styles.image}
-          />
+          >
+            <LinearGradient
+              colors={["transparent", backgroundColor]}
+              style={styles.gradient}
+            >
+              <Text style={{ color: "white", fontSize: 18, textAlign : "center" }}>{p.name}</Text>
+            </LinearGradient>
+          </ImageBackground>
         </TouchableOpacity>
       )
     );
@@ -116,16 +124,20 @@ const Search = () => {
   };
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-      <TouchableOpacity onPress={() => setKeyword("")} style={styles.clear}>
-        <Icon name="delete" size={30} color={"white"} />
-      </TouchableOpacity>
-      <TextInput
-        style={styles.input}
-        placeholder="Search"
-        placeholderTextColor={"white"}
-        onChangeText={(e) => setKeyword(e)}
-        value={keyword}
-      ></TextInput>
+      <View
+        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+      >
+        <TextInput
+          style={styles.input}
+          placeholder="Search"
+          placeholderTextColor={"white"}
+          onChangeText={(e) => setKeyword(e)}
+          value={keyword}
+        ></TextInput>
+        <TouchableOpacity onPress={() => setKeyword("")} style={styles.clear}>
+          <Icon name="cross" size={30} color={"white"} />
+        </TouchableOpacity>
+      </View>
       {!keyword ? (
         <History history={history} handleSearch={handleSearch} />
       ) : (
@@ -168,17 +180,15 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 18,
     marginLeft: 10,
-    width: "90%",
     padding: 10,
     paddingHorizontal: 15,
     flexDirection: "row",
-    width: "95%",
     backgroundColor: "#21374f",
     borderRadius: 15,
     alignItems: "center",
     marginVertical: 20,
     color: "white",
-    elevation: 15,
+    flex: 1,
   },
   header: {
     fontSize: 25,
@@ -186,9 +196,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   image: {
-    justifyContent: "center",
+    justifyContent: "flex-end",
     height: 200,
     width: 150,
+    flex: 1,
+  
   },
   poster: {
     margin: 10,
@@ -216,9 +228,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   clear: {
-    position: "absolute",
-    left: 325,
-    elevation: 15,
-    top: 28,
+    elevation: 50,
+    paddingHorizontal: 5,
+  },
+  gradient: {
+    height: 100,
+    display: "flex",
+    justifyContent: "flex-end",
   },
 });

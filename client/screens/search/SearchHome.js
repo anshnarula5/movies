@@ -8,7 +8,6 @@ import { backgroundColor } from "../../constants";
 import Details from "../browse/Details";
 import People from "../browse/People";
 import Search from "./Search";
-import SearchDetails from "./SearchDetails";
 const Stack = createStackNavigator();
 
 const SearchHome = () => {
@@ -38,7 +37,7 @@ const SearchHome = () => {
       />
       <Stack.Screen
         name="SearchDetails"
-        component={SearchDetails}
+        component={Details}
         options={{
           title: "Movie Info",
           headerShown: false,

@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
+import Empty from "./Empty";
 import PosterLoader from "./loaders/PosterLoader";
 
 const Poster = ({ movie }) => {
@@ -15,7 +16,7 @@ const Poster = ({ movie }) => {
   return (
     <TouchableOpacity
       style={styles.poster}
-      onPress={() => navigation.navigate("Details", { id: movie.id })}
+      onPress={() => navigation.navigate("MyMovieDetails", { id: movie.id })}
     >
       <Image
         source={{
@@ -32,7 +33,7 @@ const MyMovies = ({ favourites, watchlist }) => {
   return (
     <>
       <Text style={styles.heading}>My Favourites </Text>
-      {
+      {favourites.length === 0 ? <Empty text="favourites" /> :
         <FlatList
           horizontal={true}
           data={favourites}
@@ -41,7 +42,7 @@ const MyMovies = ({ favourites, watchlist }) => {
         />
       }
       <Text style={styles.heading}>My Watchlist </Text>
-      {
+      {watchlist.length === 0 ? <Empty text="watchlist movies" /> :
         <FlatList
           horizontal={true}
           data={watchlist}

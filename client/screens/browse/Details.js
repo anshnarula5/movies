@@ -24,7 +24,9 @@ import DetailsLoader from "../../components/loaders/DetailsLoader";
 import { fetchSearchResults } from "../../redux/actions/fetchSearchResults";
 import {
   favouriteMovie,
+  getFav,
   getUserInfo,
+  getWatchlist,
   watchlistMovie,
 } from "../../redux/actions/userActions";
 import { setAlert } from "../../redux/actions/alert";
@@ -32,6 +34,10 @@ const Details = ({ route }) => {
   const [trailerUrl, setTrailerUrl] = useState();
   const [favourite, setFavourite] = useState(false);
   const [watchlist, setWatchlist] = useState(false);
+  const { loading: wlLoading, watchlist: wl } = useSelector(
+    (state) => state.wlList
+  );
+  const { loading: favLoading, fav } = useSelector((state) => state.favList);
   const { id } = route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -46,37 +52,42 @@ const Details = ({ route }) => {
     });
   };
   useEffect(() => {
-    dispatch(getUserInfo());
-    if (!userLoading && userInfo) {
-      setFavourite(userInfo.favourites.filter((f) => f === id.toString()) > 0);
-      setWatchlist(userInfo.watchlist.filter((f) => f === id.toString()) > 0);
-    } else {
-      setFavourite(0);
-      setWatchlist(0);
+    dispatch(getFav());
+    dispatch(getWatchlist());
+    if (!wlLoading && !favLoading) {
+      setFavourite(fav.filter((f) => f === id.toString()) > 0);
+      setWatchlist(wl.filter((f) => f === id.toString()) > 0);
     }
-  }, []);
+  }, [wlLoading, favLoading]);
   useEffect(() => {
     dispatch(fetchDetails(id));
     return () => dispatch({ type: "CLEAR_DETAILS" });
   }, [id, dispatch]);
-  
+
   const handleTrailer = () => {
     trailerHandler(details);
   };
 
   const handleFavourite = () => {
     if (!userInfo) {
-      dispatch(setAlert({ message: "Login to add movie to favourites", type : "danger" }));
+      dispatch(
+        setAlert({
+          message: "Login to add movie to favourites",
+          type: "danger",
+        })
+      );
     } else {
-      dispatch(favouriteMovie({id, image :  details.poster_path }));
+      dispatch(favouriteMovie({ id, image: details.poster_path }));
       setFavourite((prev) => !prev);
     }
   };
   const handleWatchList = () => {
     if (!userInfo) {
-      dispatch(setAlert({ message: "Login to add movie to watchlist", type : "danger" }));
+      dispatch(
+        setAlert({ message: "Login to add movie to watchlist", type: "danger" })
+      );
     } else {
-      dispatch(watchlistMovie({id, image :  details.poster_path }));
+      dispatch(watchlistMovie({ id, image: details.poster_path }));
       setWatchlist((prev) => !prev);
     }
   };

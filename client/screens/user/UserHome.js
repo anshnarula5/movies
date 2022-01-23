@@ -2,6 +2,7 @@ import {useNavigation} from "@react-navigation/native";
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import React, {useEffect} from "react";
 import { StyleSheet, View } from "react-native";
+import Details from "../browse/Details";
 import Auth from "./Auth";
 import User from "./User";
 
@@ -50,7 +51,24 @@ const UserHome = () => {
               },
               animationEnabled: true,
             }}
-          />
+        />
+         <Stack.Screen
+        name="MyMovieDetails"
+        component={Details}
+        options={{
+          title: "Movie Info",
+          headerShown: false,
+          gestureDirection: "horizontal",
+          headerStyle: {
+            backgroundColor: "#161616",
+            shadowOffset: 1,
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
         </Stack.Navigator>
       </View>
   );
